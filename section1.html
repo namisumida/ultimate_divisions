@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Section 1</title>
+	<link type="text/css" href="css/main.css" rel="stylesheet"/>
+	<link type="text/css" href="numThrows/css/num_throws.css" rel="stylesheet"/>
+
+
+</head>
+<body>
+	<section id="title">
+		<h1 id="title-text">Title</h1>
+		<h3 id="subtitle-text">Subtitle</h1>
+  </section>
+  <section id="section1_throws" class="section-first">
+		<h2>1. Throws and turnovers</h2>
+		<p>In general, how often certain types of throws occur are similar across the three divisions. Of the five types of throws that were measured1 - hucks, swings, dumps, upside-down throws (e.g. hammers, scoobers), short/mid-range downfield throws - at least 50% were short/midrange downfield throws. The next most common throw is a swing, thrown about 30% of the time. Dumps and hucks each occurred about 10% of the time. And lastly, upside-down throws were utilized 1% or less often.<br><br></p>
+		<img id="img-throwsAttempted" src="" alt="Throws attempted">
+		<p>Similar to attempt rates, completion rates do not vary much between division. The throws that were most often completed are dumps and swings, followed by short/mid-range downfield throws - each type completed at about 90% or more. Upside-down throws follow next with about three-quarters of them completed. Hucks come in last with less than a 50% chance of success - far less successful than any other throw.<br><br></p>
+		<img id="img-completionRates" src="" alt="Completion rates">
+		<p>Despite similar attempt and completion rates, when it comes to throws that led to scores (i.e. the scoring throw), differences appear between divisions. Women’s teams overwhelmingly scored with short/mid-range downfield throws, with about four-in-five scores (77%) resulting from these throws. Meanwhile, only about one-in-five scores (19%) came from hucks. In the Mixed and Men’s divisions, the breakdown is more spread out. A little more than half of all scores came from short/midrange downfield throws (58% and 54%, respectively), while over a third resulted from hucks (36% and 39%, respectively). <br><br></p>
+		<img id="img-scoredThrows" src="" alt="Scored throws">
+		<p>While the previous examined proportions of throws, looking at the number of throws may provide insight into the pace of the game; the more throws that occur in a given timeframe, the faster the play may progress. Games in the Men’s division had, on average, the fewest number of throws (310), followed by Mixed (331) and lastly Women's (379).<br><br>There is the most variation in Women's games, with one game under 250 throws (which had an ending score of 15-5) and one game over 500 (ending score of 15-14) - both of which were semifinal games at Nationals. Interestingly, the 2017 Women's games are all at the lower end - all under 380 throws and averaging 331 throws.<br><br>Games in the Mixed division are fairly consistent, with only a range of 100. Games in the Men's division are also relatively consistent, give or take a couple outliers.<br><br></p>
+	</section>
+	<section class="svg-section">
+		<h4 class="chart-title">Number of throws per game</h4>
+		<p class="chart-subtext">The number of throws that were attempted in each game for all three divisions. Scroll over each circle for game details.</p>
+		<div id="options-container">
+			<div id="highlight-container">
+				<p class="chart-label" id="highlight-label">Highlight:</p>
+				<form id="checkboxes">
+					<input type="checkbox" class="checkbox_year" id="checkbox_2016" value="2016"> 2016 games<br>
+					<input type="checkbox" class="checkbox_year" id="checkbox_2017" value="2017"> 2017 games<br>
+					<input type="checkbox" class="checkbox_year" id="checkbox_2018" value="2018"> 2018 games<br>
+				</form>
+			</div>
+			<div id="filter-container">
+				<p class="chart-label">Filter on:</p>
+				<select id="input">
+						<option value="all" selected="selected" class="dropdown">All games</option>
+						<option value="within" class="dropdown">Point diff within 2</option>
+						<option value="over" class="dropdown">Point diff over 2</option>
+						<option value="2016" class="dropdown">2016 games</option>
+						<option value="2017" class="dropdown">2017 games</option>
+				</select>
+			</div>
+		</div>
+		<svg id="svg-numthrows"></svg>
+	</section>
+	<section class="section-cont">
+		<p>A similar share of points across games in each division had turnovers: On average, 35-37% of points in a game had at least one turnover - in any of the three divisions. Moreover, in the points with turnovers, all three divisions had a similar number of turnovers occurring. Within the games analyzed, the maximum number of turnovers in a single point was 11 and occurred in the Men’s division.<br><br>As expected, turnover rates differ between winning and losing teams. (More details on offensive efficiency in the next section.) This similarity in average turnover rates in a game, however, shows that a spectator watching an average game from each division would not notice any significant differences in turnovers - in absolute number or in rate of occurrence.<br><br></p>
+		<img id="img-turnovers" src="" alt="Turnovers">
+		<p>Off of an opposing team’s turnover, Men’s and Mixed teams found themselves starting in their end zone and having to traverse the full field about 60% of the time. However, this only happened 44% of the time for Women’s teams. Instead, 50% of pickups off of a turnover were somewhere in between the two end zones. In other words, after generating a turnover, Women’s teams were more likely to pick up the disc further down the field and to not need to traverse as many yards to score.<br><br></p>
+		<img id="img-fieldPosition" src="" alt="Field position">
+	</section>
+	<div id="navigation-container">
+		<p id="back"><strong>Go back</strong><br><a href="index.html">Intro</a></p>
+		<p id="forward"><strong>Keep reading</strong><br><a href="section2.html">Section 2: Offensive points</a></p>
+	</div>
+
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="numThrows/js/utils.js"></script>
+	<script src="numThrows/js/ultimate_utils.js"></script>
+	<script src="numThrows/js/main.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+.division_labels {
+  font-size: 15px;
+  font-weight: 600;
+  text-anchor: start;
+  font-family: radnika-bold;
+}
+.data_labels {
+  font-size: 12px;
+  text-anchor: middle;
+  font-weight: 500;
+  font-family: radnika-regular;
+}
+.tooltips {
+  font-size: 12px;
+  font-weight: 600;
+  fill: gray;
+  font-family: radnika-regular;
+}
+#input{
+  position: relative;
+  width: 140px;
+  font-size: 12px;
+  font-family: radnika-regular;
+}
+#checkboxes{
+  position: relative;
+  width: 100px;
+  font-size: 12px;
+  font-family: radnika-regular;
+}
