@@ -399,7 +399,7 @@ var w_division4 = 60;
 var h_spacing4 = 10;
 var h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
 var w_pieSpace4 = w4-w_division4-w_labels4-20;
-var outerRadius4 = w_pieSpace4/4;
+var outerRadius4 = h_pieSpace4/2;
 svg4.selectAll("division_labels4")
     .data(dataset_divisions)
     .enter()
@@ -522,9 +522,9 @@ svg4.selectAll("max_label4")
     })
     .text(function(d) {
       if (d.division=="mens") {
-        return "Maximum per point: " + d3.format(.00)(d.avg);
+        return "Maximum per point: " + d3.format(.0)(d.max);
       }
-      else { return "Maximum: " + d3.format(.00)(d.avg); }
+      else { return "Maximum: " + d3.format(.0)(d.max); }
     })
     .call(wrap, w_labels4)
     .style("text-anchor", "middle");
