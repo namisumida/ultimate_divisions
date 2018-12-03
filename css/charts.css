@@ -1,0 +1,47 @@
+.division_labels {
+  font-size: 16px;
+  font-weight: 600;
+  text-anchor: start;
+  font-family: radnika-bold;
+}
+.axis_labels {
+  font-size: 14px;
+  text-anchor: middle;
+  font-weight: 500;
+  font-family: radnika-regular;
+}
+.data_labels {
+  font-size: 14px;
+  text-anchor: middle;
+  font-weight: 500;
+  font-family: radnika-regular;
+}
+.tooltips {
+  font-size: 12px;
+  font-weight: 600;
+  fill: gray;
+  font-family: radnika-regular;
+}
+#input{
+  position: relative;
+  width: 140px;
+  font-size: 12px;
+  font-family: radnika-regular;
+}
+#checkboxes{
+  position: relative;
+  width: 100px;
+  font-size: 12px;
+  font-family: radnika-regular;
+}
+.bar2 {
+  fill: rgb(255,122,115);
+}
+.circles {
+  stroke-width: 2;
+  stroke: black;
+  fill: none;
+}
+.xLine {
+  stroke: gray;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Number of Throws</title>
+		<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+		<link type="text/css" href="css/num_throws.css" rel="stylesheet"/>
+	</head>
+	<body>
+
+		<select id="input">
+				<option value="all" selected="selected" class="dropdown">All games</option>
+				<option value="within" class="dropdown">Point diff within 2</option>
+				<option value="over" class="dropdown">Point diff over 2</option>
+				<option value="2016" class="dropdown">2016 games</option>
+				<option value="2017" class="dropdown">2017 games</option>
+		</select>
+
+		<form id="checkboxes">
+		  <input type="checkbox" class="checkbox_year" id="checkbox_2016" value="2016"> 2016 games<br>
+		  <input type="checkbox" class="checkbox_year" id="checkbox_2017" value="2017"> 2017 games<br>
+			<input type="checkbox" class="checkbox_year" id="checkbox_2018" value="2018"> 2018 games<br>
+		</form>
+		<script src="js/utils.js"></script>
+		<script src="js/ultimate_utils.js"></script>
+		<script src="js/main.js"></script>
+
+	</body>
+</html>
