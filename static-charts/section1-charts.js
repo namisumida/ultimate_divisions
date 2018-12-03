@@ -1,6 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // SVG 1: Throws attempted
 var svg1 = d3.select("#svg-throwsattempted");
+var dataset1_throws = ["Short/mid down", "Swing", "Dump", "Huck", "Upside-down"];
 var dataset1_mens = [51, 30, 10, 8, 1];
 var dataset1_mixed = [52, 30, 8, 9, 1];
 var dataset1_womens = [52, 32, 10, 7, 0.5];
@@ -8,12 +9,11 @@ var colors1 = [green, blue, pink, orange, coral];
 var w1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().width;
 var h1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().height;
 var w_spacing1 = 10;
-var left1 = 15;
-var top1 = 10;
+var left1 = 25;
+var top1 = 30;
 var w_pieSpace1 = (w1-w_spacing1*4)/3;
 var w_pie1 = w_pieSpace1*.8;
 var outerRadius1 = w_pie1/2;
-
 svg1.selectAll("division_labels1")
     .data(dataset_divisions)
     .enter()
@@ -43,12 +43,12 @@ var pie1 = d3.pie();
 var arc1 = d3.arc()
              .innerRadius(0)
              .outerRadius(outerRadius1);
-var mensArcs1 = svg1.selectAll("g.arc")
-                .data(pie1(dataset1_mens))
-                .enter()
-                .append("g")
-                .attr("class", "arc")
-                .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1/2) + ", " + (top1+40 + w_pie1/2) + ")");
+var mensArcs1 = svg1.selectAll("g.arc1")
+                    .data(pie1(dataset1_mens))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1/2) + ", " + (top1+40 + w_pie1/2) + ")");
 mensArcs1.append("path")
          .style("fill", function(d,i) {
            return colors1[i];
@@ -57,15 +57,121 @@ mensArcs1.append("path")
 mensArcs1.append("text")
          .attr("text-anchor", "middle")
          .attr("class", "data_labels")
-          .attr("transform", function(d) {
-            return "translate(" + arc1.centroid(d) + ")";
-          })
+         .attr("x", function(d,i) {
+           if (i==4) {
+             return arc1.centroid(d)[0]+10;
+           }
+           else if (i>1) {
+             return arc1.centroid(d)[0]*1.5
+           }
+           else { return arc1.centroid(d)[0]; }
+         })
+         .attr("y", function(d,i) {
+           if (i>1) {
+             return arc1.centroid(d)[1]*1.5
+           }
+           else { return arc1.centroid(d)[1]; }
+         })
          .text(function(d) {
            return d.value + "%";
          });
-
-
-
+var mixedArcs1 = svg1.selectAll("g.arc2")
+                      .data(pie1(dataset1_mixed))
+                      .enter()
+                      .append("g")
+                      .attr("class", "arc")
+                      .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*1.5) + ", " + (top1+40 + w_pie1/2) + ")");
+mixedArcs1.append("path")
+          .style("fill", function(d,i) {
+           return colors1[i];
+          })
+          .attr("d", arc1);
+mixedArcs1.append("text")
+          .attr("text-anchor", "middle")
+          .attr("class", "data_labels")
+          .attr("x", function(d,i) {
+            if (i==4) {
+              return arc1.centroid(d)[0]+10;
+            }
+            else if (i>1) {
+              return arc1.centroid(d)[0]*1.5
+            }
+            else { return arc1.centroid(d)[0]; }
+          })
+          .attr("y", function(d,i) {
+            if (i>1) {
+              return arc1.centroid(d)[1]*1.5
+            }
+            else { return arc1.centroid(d)[1]; }
+          })
+          .text(function(d) {
+           return d.value + "%";
+         });
+var womensArcs1 = svg1.selectAll("g.arc3")
+                      .data(pie1(dataset1_womens))
+                      .enter()
+                      .append("g")
+                      .attr("class", "arc")
+                      .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*2.5) + ", " + (top1+40 + w_pie1/2) + ")");
+womensArcs1.append("path")
+         .style("fill", function(d,i) {
+           return colors1[i];
+         })
+         .attr("d", arc1);
+womensArcs1.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d,i) {
+           if (i==4) {
+             return arc1.centroid(d)[0]+10;
+           }
+           else if (i>1) {
+             return arc1.centroid(d)[0]*1.5
+           }
+           else { return arc1.centroid(d)[0]; }
+         })
+         .attr("y", function(d,i) {
+           if (i>1) {
+             return arc1.centroid(d)[1]*1.5
+           }
+           else { return arc1.centroid(d)[1]; }
+         })
+         .text(function(d) {
+           if (d.value>1) {
+             return d.value + "%";
+           }
+           else { return "<1%"; }
+         });
+svg1.append("text")
+   .attr("class", "axis_labels")
+   .text("Short/mid down")
+   .attr("x", 260)
+   .attr("y", 220)
+   .call(wrap, 50);
+svg1.append("text")
+   .attr("class", "axis_labels")
+   .text("Swing")
+   .attr("x", 40)
+   .attr("y", 210)
+   .call(wrap, 50);
+svg1.append("text")
+   .attr("class", "axis_labels")
+   .text("Dump")
+   .attr("x", 50)
+   .attr("y", 110)
+   .call(wrap, 50);
+svg1.append("text")
+   .attr("class", "axis_labels")
+   .text("Huck")
+   .attr("x", 110)
+   .attr("y", 70)
+   .call(wrap, 50);
+svg1.append("text")
+   .attr("class", "axis_labels")
+   .text("Upside-down")
+   .attr("x", 190)
+   .attr("y", 45)
+   .call(wrap, 50);
 // SVG 2: Completion rates of throws
 var svg2 = d3.select("#svg-completionrates");
 var dataset2 = [{division:"mens", throw:"All throws", rate:.78 }, {division:"mens",throw:"Dump", rate:.99}, {division:"mens",throw:"Swing", rate:.97},
