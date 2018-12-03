@@ -392,18 +392,21 @@ var dataset4 = [{division:"mens", rate:.33, avg:2.2, max:11},
                 {division:"womens", rate:.37, avg:2.8, max:10}];
 var w4 = document.getElementById("svg-turnovers").getBoundingClientRect().width;
 var h4 = document.getElementById("svg-turnovers").getBoundingClientRect().height;
-var w_labels4 = 80;
-var w_division4 = 95;
+var top4 = 10;
+var bottom4 = 10;
+var w_labels4 = 90;
+var w_division4 = 60;
 var h_spacing4 = 10;
-var h_pie4 = (h4-h_spacing4*2)/3;
-var w_pie4 = w4-w_division4-w_labels4-20;
+var h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
+var w_pieSpace4 = w4-w_division4-w_labels4-20;
+var outerRadius4 = w_pieSpace4/4;
 svg4.selectAll("division_labels4")
     .data(dataset_divisions)
     .enter()
     .append("text")
     .attr("x", 5)
     .attr("y", function(d,i) {
-      return h_pie4*i+h_pie4/2;
+      return h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+10;
     })
     .text(function(d) {
       if (d=="mens") {
@@ -415,14 +418,90 @@ svg4.selectAll("division_labels4")
       else { return "WOMEN'S"; }
     })
     .attr("class", "division_labels");
+var pie4 = d3.pie().sort(null);
+var arc4 = d3.arc()
+             .innerRadius(0)
+             .outerRadius(outerRadius4);
+var mensArcs4 = svg4.selectAll("g.arc4")
+                    .data(pie4([33,67]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (top4+outerRadius4+10) + ")");
+mensArcs4.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc4);
+mensArcs4.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc4.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc4.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         });
+var mixedArcs4 = svg4.selectAll("g.arc4")
+                    .data(pie4([35,65]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4+top4+outerRadius4+h_pieSpace4+10) + ")");
+mixedArcs4.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc4);
+mixedArcs4.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc4.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc4.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         });
+var womensArcs4 = svg4.selectAll("g.arc4")
+                    .data(pie4([37,63]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4*2+top4+outerRadius4+h_pieSpace4*2+10) + ")");
+womensArcs4.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc4);
+womensArcs4.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc4.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc4.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         });
 svg4.selectAll("avg_label4")
     .data(dataset4)
     .enter()
     .append("text")
     .attr("class", "data_labels")
-    .attr("x", w_division4+w_pie4+20)
+    .attr("x", w_division4+w_pieSpace4+20)
     .attr("y", function(d,i) {
-      return h_pie4*i+h_pie4/2-20;
+      return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i-20;
     })
     .text(function(d) {
       if (d.division=="mens") {
@@ -437,9 +516,9 @@ svg4.selectAll("max_label4")
     .enter()
     .append("text")
     .attr("class", "data_labels")
-    .attr("x", w_division4+w_pie4+20)
+    .attr("x", w_division4+w_pieSpace4+20)
     .attr("y", function(d,i) {
-      return h_pie4*i+h_pie4/2+20;
+      return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+20;
     })
     .text(function(d) {
       if (d.division=="mens") {
@@ -452,9 +531,6 @@ svg4.selectAll("max_label4")
 
 /////////////////////////////////////////////////////////////////////////////
 var svg5 = d3.select("#svg-fieldpos");
-var dataset5 = [{division:"mens", full:.56, btwn:.35, endzone:.09},
-                {division:"mixed", full:.57, btwn:.37, endzone:.06},
-                {division:"womens", full:.42, btwn:.53, endzone:.05}];
 var w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
 var h5 = document.getElementById("svg-fieldpos").getBoundingClientRect().height;
 var top5 = 35;
@@ -462,7 +538,11 @@ var h_spacing5 = 10;
 var w_label5 = 95;
 var w_field5 = (w5-w_label5-10);
 var h_field5 = (h5-top5-h_spacing5*2);
-var h_pie5 = h_field5/3;
+var outerRadius5 = (h_field5-40)/3/2;
+var dataset5 = [{division:"mens", full:56, btwn:35, endzone:9},
+                {division:"mixed", full:57, btwn:37, endzone:6},
+                {division:"womens", full:42, btwn:53, endzone:5}];
+// labels
 svg5.append("text")
     .attr("x", w_label5+w_field5/5)
     .attr("y", top5)
@@ -509,7 +589,7 @@ svg5.selectAll("division_labels5")
     .append("text")
     .attr("x", 5)
     .attr("y", function(d,i) {
-      return top5+15+h_pie5*i+h_pie5/2;
+      return top5+15+10*(i+1)+outerRadius5*(2*i+1);
     })
     .text(function(d) {
       if (d=="mens") {
@@ -521,3 +601,217 @@ svg5.selectAll("division_labels5")
       else { return "WOMEN'S"; }
     })
     .attr("class", "division_labels");
+var pie5 = d3.pie().sort(null);
+var arc5 = d3.arc()
+             .innerRadius(0)
+             .outerRadius(outerRadius5);
+var arc5_full_mens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[0].full,(100-dataset5[0].full)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5+25) + ")");
+arc5_full_mens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_full_mens.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+var arc5_full_mixed = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[1].full,(100-dataset5[1].full)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*3+35) + ")");
+arc5_full_mixed.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_full_mixed.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+var arc5_full_womens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[2].full,(100-dataset5[2].full)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*5+45) + ")");
+arc5_full_womens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_full_womens.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+// btwn full and endzone
+var arc5_btwn_mens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[0].btwn,(100-dataset5[0].btwn)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5+25) + ")");
+arc5_btwn_mens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_btwn_mens.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+var arc5_btwn_mixed = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[1].btwn,(100-dataset5[1].btwn)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*3+35) + ")");
+arc5_btwn_mixed.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_btwn_mixed.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+var arc5_btwn_womens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[2].btwn,(100-dataset5[2].btwn)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*5+45) + ")");
+arc5_btwn_womens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+arc5_btwn_womens.append("text")
+         .attr("text-anchor", "middle")
+         .attr("class", "data_labels")
+         .attr("x", function(d) {
+           return arc5.centroid(d)[0]
+         })
+         .attr("y", function(d) {
+           return arc5.centroid(d)[1]
+         })
+         .text(function(d,i) {
+           if (i==0) { return d.value + "%"; }
+         })
+         .style("font-size", "12");
+// end zone
+var arc5_endzone_mens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[0].endzone,(100-dataset5[0].endzone)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5+25) + ")");
+arc5_endzone_mens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+var arc5_endzone_mixed = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[1].endzone,(100-dataset5[1].endzone)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*3+35) + ")");
+arc5_endzone_mixed.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+var arc5_endzone_womens = svg5.selectAll("g.arc5")
+                    .data(pie5([dataset5[2].endzone,(100-dataset5[2].endzone)]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*5+45) + ")");
+arc5_endzone_womens.append("path")
+         .style("fill", function(d,i) {
+           if (i==0) { return coral; }
+           else { return light_gray; }
+         })
+         .attr("d", arc5);
+
+svg5.append("text")
+    .attr("text-anchor", "middle")
+    .attr("class", "data_labels")
+    .attr("x", w_label5+w_field5*4/5+10)
+    .attr("y", top5+outerRadius5+15)
+    .text("9%")
+    .style("font-size", "12");
+svg5.append("text")
+    .attr("text-anchor", "middle")
+    .attr("class", "data_labels")
+    .attr("x", w_label5+w_field5*4/5+10)
+    .attr("y", top5+outerRadius5*3+25)
+    .text("6%")
+    .style("font-size", "12");
+svg5.append("text")
+    .attr("text-anchor", "middle")
+    .attr("class", "data_labels")
+    .attr("x", w_label5+w_field5*4/5+10)
+    .attr("y", top5+outerRadius5*5+35)
+    .text("5%")
+    .style("font-size", "12");

@@ -81,10 +81,13 @@ section {
   max-width: 750px;
 }
 #title {
+  border-bottom: solid 1px black;
+}
+#title-container {
   position: relative;
   margin: 0 auto;
   margin-top: 30px;
-  border-bottom: solid 1px black;
+  max-width: 500px;
 }
 #options-container {
   width: 250px;

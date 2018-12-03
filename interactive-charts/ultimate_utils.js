@@ -24,3 +24,4 @@ var green = d3.rgb(160,223,167);
 var orange = d3.rgb(255,186,102);
 var blue = d3.rgb(104,214,255);
 var pink = d3.rgb(243,153,192);
+var light_gray = d3.rgb(220,220,220);

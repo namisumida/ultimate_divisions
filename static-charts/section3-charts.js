@@ -53,7 +53,7 @@ svg8.selectAll("scores_circles8")
     .attr("r", function(d) {
       return max_r*d.scores;
     })
-    .style("fill", green);
+    .style("fill", blue);
 svg8.selectAll("possessed_circles")
     .data(dataset8)
     .enter()
@@ -129,7 +129,7 @@ svg8.append("text")
     .attr("y", 1.8*max_r)
     .call(wrap, 100)
     .style("text-anchor", "start")
-    .style("fill", green);
+    .style("fill", blue);
 
 /////////////////////////////////////////////////////////////////////////////
 var svg9 = d3.select("#svg-odlines");
@@ -200,7 +200,7 @@ svg9.selectAll("dDots9")
       return h_label+(i+1)*h_dots9;
     })
     .attr("r", 6)
-    .style("fill", green);
+    .style("fill", blue);
 svg9.selectAll("oLabel9")
     .data(dataset9)
     .enter()
@@ -230,14 +230,14 @@ svg9.selectAll("dLabel9")
     .text(function(d) {
       return d3.format(".0%")(d.dline);
     })
-    .style("fill", green);
+    .style("fill", blue);
 svg9.append("text")
     .attr("class", "axis_labels")
     .text("D-lines")
     .attr("x", xScale9(.7))
     .attr("y", 45)
     .style("text-anchor", "middle")
-    .style("fill", green)
+    .style("fill", blue)
     .style("font-family", "radnika-bold");
 svg9.append("text")
     .attr("class", "axis_labels")

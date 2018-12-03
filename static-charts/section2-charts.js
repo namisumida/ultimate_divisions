@@ -197,7 +197,7 @@ svg7.selectAll("loseDots7")
       return h_label+(i+1)*h_dots7;
     })
     .attr("r", 6)
-    .style("fill", blue);
+    .style("fill", orange);
 svg7.selectAll("winLabel7")
     .data(dataset7)
     .enter()
@@ -227,14 +227,14 @@ svg7.selectAll("loseLabel7")
     .text(function(d) {
       return d3.format(".0%")(d.lose);
     })
-    .style("fill", blue);
+    .style("fill", orange);
 svg7.append("text")
     .attr("class", "axis_labels")
     .text("Losing teams")
     .attr("x", xScale7(.71))
     .attr("y", 45)
     .style("text-anchor", "end")
-    .style("fill", blue)
+    .style("fill", orange)
     .style("font-family", "radnika-bold");
 svg7.append("text")
     .attr("class", "axis_labels")
