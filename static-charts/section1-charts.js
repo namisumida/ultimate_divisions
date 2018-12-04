@@ -39,7 +39,7 @@ svg1.selectAll("division_labels1")
       else { return "WOMEN'S"; }
     })
     .style("text-anchor", "middle");
-var pie1 = d3.pie();
+var pie1 = d3.pie().sort(null);
 var arc1 = d3.arc()
              .innerRadius(0)
              .outerRadius(outerRadius1);
