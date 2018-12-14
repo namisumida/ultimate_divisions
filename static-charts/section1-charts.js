@@ -4,7 +4,7 @@ var svg1 = d3.select("#svg-throwsattempted");
 var dataset1_throws = ["Short/mid down", "Swing", "Dump", "Huck", "Upside-down"];
 var dataset1_mens = [51, 30, 10, 8, 1];
 var dataset1_mixed = [52, 30, 8, 9, 1];
-var dataset1_womens = [52, 32, 10, 7, 0.5];
+var dataset1_womens = [52, 31, 10, 7, 0.2];
 var colors1 = [green, blue, pink, orange, coral];
 var w1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().width;
 var h1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().height;
@@ -39,7 +39,7 @@ svg1.selectAll("division_labels1")
       else { return "WOMEN'S"; }
     })
     .style("text-anchor", "middle");
-var pie1 = d3.pie().sort(null);
+var pie1 = d3.pie();
 var arc1 = d3.arc()
              .innerRadius(0)
              .outerRadius(outerRadius1);
@@ -174,11 +174,11 @@ svg1.append("text")
    .call(wrap, 50);
 // SVG 2: Completion rates of throws
 var svg2 = d3.select("#svg-completionrates");
-var dataset2 = [{division:"mens", throw:"All throws", rate:.78 }, {division:"mens",throw:"Dump", rate:.99}, {division:"mens",throw:"Swing", rate:.97},
+var dataset2 = [{division:"mens", throw:"All throws", rate:.91 }, {division:"mens",throw:"Dump", rate:.99}, {division:"mens",throw:"Swing", rate:.97},
                 {division:"mens",throw:"Short/mid down", rate:.93}, {division:"mens", throw:"Upside-down", rate:.8}, {division:"mens", throw:"Huck", rate:.53},
-                {division:"mixed", throw:"all", rate:.77}, {division:"mixed",throw:"dump", rate:.98}, {division:"mixed",throw:"swing", rate:.97},
+                {division:"mixed", throw:"all", rate:.91}, {division:"mixed",throw:"dump", rate:.98}, {division:"mixed",throw:"swing", rate:.97},
                 {division:"mixed", throw:"down", rate:.92}, {division:"mixed",throw:"over", rate:.79}, {division:"mixed",throw:"huck", rate:.53},
-                {division:"womens", throw:"all", rate:.74}, {division:"womens",throw:"dump", rate:.98}, {division:"womens",throw:"swing", rate:.95},
+                {division:"womens", throw:"all", rate:.88}, {division:"womens",throw:"dump", rate:.98}, {division:"womens",throw:"swing", rate:.95},
                 {division:"womens", throw:"down", rate:.88}, {division:"womens",throw:"over", rate:.71}, {division:"womens",throw:"huck", rate:.48}];
 var w2 = document.getElementById("svg-completionrates").getBoundingClientRect().width;
 var h2 = document.getElementById("svg-completionrates").getBoundingClientRect().height;
@@ -274,15 +274,16 @@ svg2.selectAll("bar2")
 //////////////////////////////////////////////////////////////////////////////
 // SVG 3: Scored throws
 var svg3 = d3.select("#svg-scoredthrows");
-var dataset3 = [{division:"mens",throw:"Short/mid down", rate:.54, net:.54}, {division:"mens", throw:"Huck", rate:.39, net:.93}, {division:"mens", throw:"Upside-down", rate:.04, net:.97}, {division:"mens",throw:"Swing", rate:.02, net:1},
-                {division:"mixed", throw:"down", rate:.58, net:.58}, {division:"mixed",throw:"huck", rate:.36, net:.94},{division:"mixed",throw:"over", rate:.05, net:.99},{division:"mixed",throw:"swing", rate:.01, net:1},
-                {division:"womens", throw:"down", rate:.77, net:.77}, {division:"womens",throw:"huck", rate:.19, net:.96},{division:"womens",throw:"over", rate:.01, net:.97},{division:"womens",throw:"swing", rate:.03, net:1}];
+var dataset3 = [{division:"mens",throw:"Short/mid down", rate:.58, net:.58}, {division:"mens", throw:"Huck", rate:.34, net:.92}, {division:"mens", throw:"Upside-down", rate:.04, net:.96}, {division:"mens",throw:"Swing", rate:.03, net:.99}, {division:"mens",throw:"Callahan", rate:.005, net:1},
+                {division:"mixed", throw:"down", rate:.57, net:.57}, {division:"mixed",throw:"huck", rate:.36, net:.93},{division:"mixed",throw:"over", rate:.04, net:.97},{division:"mixed",throw:"swing", rate:.03, net:.996},{division:"mixed",throw:"callahan", rate:.004, net:1},
+                {division:"womens", throw:"down", rate:.72, net:.72}, {division:"womens",throw:"huck", rate:.25, net:.97},{division:"womens",throw:"over", rate:.004, net:.98},{division:"womens",throw:"swing", rate:.02, net:1}];
 var w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
 var h3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().height;
+var bottom3 = 5;
 var w_labels3 = 100;
 var w_spacing3 = 30;
 var w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
-var h_bar3 = h3 - 50;
+var h_bar3 = h3 - 50 - bottom3;
 var yScale3 = d3.scaleLinear()
                 .domain([0,1])
                 .range([3,h_bar3])
@@ -319,7 +320,18 @@ svg3.selectAll("axis_labels3")
     .attr("class", "axis_labels")
     .attr("x", w_labels3-10)
     .attr("y", function(d,i) {
-      return 50+yScale3(d.net-d.rate/2);
+      if (d.throw=="Huck" | d.throw=="Short/mid down") {
+        return 50+yScale3(d.net-d.rate/2);
+      }
+      else if (d.throw=="Upside-down") {
+        return 45+yScale3(d.net-d.rate/2);
+      }
+      else if (d.throw=="Swing") {
+        return 48+yScale3(d.net-d.rate/2);
+      }
+      else if (d.throw=="Callahan") {
+        return 55+yScale3(d.net-d.rate/2);
+      }
     })
     .text(function(d) {
       return d.throw;
@@ -359,6 +371,9 @@ svg3.selectAll("bar3")
       else if (d.throw=="over" | d.throw=="Upside-down") {
         return coral;
       }
+      else if (d.throw=="callahan" | d.throw=="Callahan") {
+        return pink;
+      }
       else { return blue; }
     })
 svg3.selectAll("data_labels3")
@@ -378,7 +393,21 @@ svg3.selectAll("data_labels3")
      }
    })
    .attr("y", function(d,i) {
-     return 50+yScale3(d.net-d.rate/2);
+     if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
+      return 50+yScale3(d.net-d.rate/2);
+     }
+     else if (d.throw=="Upside-down" | d.throw=="over") {
+       return 45+yScale3(d.net-d.rate/2);
+     }
+     else if (d.throw=="Swing" | d.throw=="swing") {
+       if (d.division=="womens") {
+         return 52+yScale3(d.net-d.rate/2);
+       }
+       else { return 48+yScale3(d.net-d.rate/2); }
+     }
+     else if (d.throw=="Callahan" | d.throw=="callahan") {
+       return 55+yScale3(d.net-d.rate/2);
+     }
    })
    .text(function(d) {
      return d3.format(".0%")(d.rate);
@@ -387,9 +416,9 @@ svg3.selectAll("data_labels3")
 
 /////////////////////////////////////////////////////////////////////////////
 var svg4 = d3.select("#svg-turnovers");
-var dataset4 = [{division:"mens", rate:.33, avg:2.2, max:11},
-                {division:"mixed", rate:.35, avg:2.3, max:7},
-                {division:"womens", rate:.37, avg:2.8, max:10}];
+var dataset4 = [{division:"mens", rate:.49, avg:2.2, max:11},
+                {division:"mixed", rate:.53, avg:2.3, max:7},
+                {division:"womens", rate:.59, avg:2.8, max:10}];
 var w4 = document.getElementById("svg-turnovers").getBoundingClientRect().width;
 var h4 = document.getElementById("svg-turnovers").getBoundingClientRect().height;
 var top4 = 10;
@@ -423,7 +452,7 @@ var arc4 = d3.arc()
              .innerRadius(0)
              .outerRadius(outerRadius4);
 var mensArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([33,67]))
+                    .data(pie4([49,51]))
                     .enter()
                     .append("g")
                     .attr("class", "arc")
@@ -447,7 +476,7 @@ mensArcs4.append("text")
            if (i==0) { return d.value + "%"; }
          });
 var mixedArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([35,65]))
+                    .data(pie4([53,47]))
                     .enter()
                     .append("g")
                     .attr("class", "arc")
@@ -471,7 +500,7 @@ mixedArcs4.append("text")
            if (i==0) { return d.value + "%"; }
          });
 var womensArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([37,63]))
+                    .data(pie4([59,41]))
                     .enter()
                     .append("g")
                     .attr("class", "arc")
@@ -539,9 +568,9 @@ var w_label5 = 95;
 var w_field5 = (w5-w_label5-10);
 var h_field5 = (h5-top5-h_spacing5*2);
 var outerRadius5 = (h_field5-40)/3/2;
-var dataset5 = [{division:"mens", full:56, btwn:35, endzone:9},
-                {division:"mixed", full:57, btwn:37, endzone:6},
-                {division:"womens", full:42, btwn:53, endzone:5}];
+var dataset5 = [{division:"mens", full:59, btwn:33, endzone:8},
+                {division:"mixed", full:58, btwn:36, endzone:6},
+                {division:"womens", full:45, btwn:51, endzone:4}];
 // labels
 svg5.append("text")
     .attr("x", w_label5+w_field5/5)

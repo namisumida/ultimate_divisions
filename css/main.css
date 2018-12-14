@@ -103,7 +103,6 @@ section {
 .svg-chart {
   margin: 0;
   width: 100%;
-  margin-bottom: 10px;
 }
 #svgSection-scoredthrows {
   float: right;
@@ -119,7 +118,7 @@ section {
   width: 60%;
   margin-left: 30px;
   margin-right: 10px;
-  height: 430px;
+  height: 480px;
   margin-top: 0;
   margin-bottom: 0;
 }

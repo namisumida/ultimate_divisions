@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////
 var svg8 = d3.select("#svg-dline");
 var dataset8 = [{division:"mens", possessed:.58, scores:.4},
-                {division:"mixed", possessed:.58, scores:.41},
+                {division:"mixed", possessed:.58, scores:.42},
                 {division:"womens", possessed:.66, scores:.4}];
 var w8 = document.getElementById("svg-dline").getBoundingClientRect().width;
 var w_label8 = 40;
@@ -133,8 +133,8 @@ svg8.append("text")
 
 /////////////////////////////////////////////////////////////////////////////
 var svg9 = d3.select("#svg-odlines");
-var dataset9 = [{division:"mens", dline:.7, oline:.8},
-                {division:"mixed", dline:.71, oline:.78},
+var dataset9 = [{division:"mens", dline:.7, oline:.81},
+                {division:"mixed", dline:.73, oline:.78},
                 {division:"womens", dline:.6, oline:.78}];
 var w9 = document.getElementById("svg-odlines").getBoundingClientRect().width;
 var h9 = document.getElementById("svg-odlines").getBoundingClientRect().height;

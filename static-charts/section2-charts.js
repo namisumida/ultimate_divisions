@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////////
 var svg6 = d3.select("#svg-conversionrate");
-var dataset6 = [{division:"mens", hold:.8, single:.61},
+var dataset6 = [{division:"mens", hold:.81, single:.61},
                 {division:"mixed", hold:.78, single:.51},
                 {division:"womens", hold:.78, single:.5}];
 var w6 = document.getElementById("svg-conversionrate").getBoundingClientRect().width;
@@ -132,7 +132,9 @@ svg6.append("text")
 
 /////////////////////////////////////////////////////////////////////////////
 var svg7 = d3.select("#svg-perfectconversion");
-var dataset7 = [{division:"mens", lose:.71, win:.76},{division:"mixed", lose:.66, win:.73},{division:"womens", lose:.56, win:.64}];
+var dataset7 = [{division:"mens", lose:.71, win:.76},
+                {division:"mixed", lose:.73, win:.66},
+                {division:"womens", lose:.56, win:.64}];
 var w7 =document.getElementById("svg-perfectconversion").getBoundingClientRect().width;
 var h7 = document.getElementById("svg-perfectconversion").getBoundingClientRect().height;
 var h_label = 5;

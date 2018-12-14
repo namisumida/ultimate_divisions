@@ -1,40 +1,40 @@
 game_id,division,throws,win_team,lose_team,score,tournament,game_type,year
 4,mens,278,sf_revolver,aus_doublewide,15-10,Nationals,final,2017
-5,mens,373,sf_revolver,ral_ringoffire,15-14,Nationals,semi-final,2017
-6,mens,329,aus_doublewide,dc_truckstop,15-10,Nationals,semi-final,2017
+5,mens,368,sf_revolver,ral_ringoffire,15-14,Nationals,semi-final,2017
+6,mens,327,aus_doublewide,dc_truckstop,15-10,Nationals,semi-final,2017
 11,mens,266,sf_revolver,chi_machine,15-10,Pro Championships,final,2017
-14,mens,310,sea_sockeye,sf_revolver,15-10,US Open,final,2017
+14,mens,307,sea_sockeye,sf_revolver,15-10,US Open,final,2017
+32,mens,337,ny_pony,sf_revolver,15-7,Nationals,final,2018
+19,mens,324,bos_ironside,sf_revolver,14-13,Nationals,final,2016
+20,mens,345,sf_revolver,ral_ringoffire,13-12,Nationals,semi-final,2016
+21,mens,304,bos_ironside,den_johnnybravo,15-11,Nationals,semi-final,2016
+29,mens,330,chi_machine,sea_sockeye,15-12,US Open,final,2016
 7,mixed,349,sea_mixtape,phi_amp,13-12,Nationals,final,2017
 8,mixed,312,sea_mixtape,bos_slowwhite,15-11,Nationals,semi-final,2017
 9,mixed,378,phi_amp,sea_bfg,15-11,Nationals,semi-final,2017
 12,mixed,378,sea_mixtape,sf_blackbird,15-13,Pro Championships,final,2017
 15,mixed,315,sea_mixtape,min_dragnthrust,15-10,US Open,final,2017
+22,mixed,360,bos_slowwhite,ct_metronorth,15-11,Nationals,final,2016
+23,mixed,297,bos_slowwhite,min_dragnthrust,15-9,Nationals,semi-final,2016
+24,mixed,345,ct_metronorth,sf_mischief,14-11,Nationals,semi-final,2016
+30,mixed,278,bos_slowwhite,sea_mixtape,15-10,US Open,final,2016
+33,mixed,298,phi_amp,sea_mixtape,15-8,Nationals,final,2018
 1,womens,350,sf_fury,bos_brutesquad,14-13,Nationals,final,2017
 2,womens,371,bos_brutesquad,den_mollybrown,12-10,Nationals,semi-final,2017
 3,womens,248,sf_fury,atl_ozone,15-5,Nationals,semi-final,2017
 10,womens,324,sea_riot,bos_brutesquad,15-10,Pro Championships,final,2017
 13,womens,361,col_revolution,den_mollybrown,15-13,US Open,final,2017
-19,mens,324,bos_ironside,sf_revolver,14-13,Nationals,final,2016
-20,mens,345,sf_revolver,ral_ringoffire,13-12,Nationals,semi-final,2016
-21,mens,204,bos_ironside,den_johnnybravo,15-11,Nationals,semi-final,2016
-29,mens,330,chi_machine,sea_sockeye,15-12,US Open,final,2016
-22,mixed,360,bos_slowwhite,ct_metronorth,15-11,Nationals,final,2016
-23,mixed,297,bos_slowwhite,min_dragnthrust,15-9,Nationals,semi-final,2016
-24,mixed,345,ct_metronorth,sf_mischief,14-11,Nationals,semi-final,2016
-30,mixed,278,bos_slowwhite,sea_mixtape,15-10,US Open,final,2016
+31,womens,450,sf_fury,bos_brutesquad,14-13,Nationals,final,2018
 16,womens,411,bos_brutesquad,sea_riot,12-11,Nationals,final,2016
 17,womens,514,sea_riot,sf_fury,15-14,Nationals,semi-final,2016
 18,womens,382,bos_brutesquad,den_mollybrown,14-9,Nationals,semi-final,2016
 28,womens,381,bos_brutesquad,sea_riot,14-7,US Open,final,2016
-32,mens,337,ny_pony,sf_revolver,15-7,Nationals,final,2018
-31,womens,450,sf_fury,bos_brutesquad,14-13,Nationals,final,2018
-33,mixed,298,phi_amp,sea_mixtape,15-8,Nationals,final,2018
-0,mens,310,,,,,,99
+0,mens,319,,,,,,99
 0,mixed,331,,,,,,99
 0,womens,379,,,,,,99
-0,mens,311,,,,,,2017
+0,mens,309,,,,,,2017
 0,mixed,346,,,,,,2017
 0,womens,331,,,,,,2017
-0,mens,301,,,,,,2016
+0,mens,326,,,,,,2016
 0,mixed,320,,,,,,2016
 0,womens,422,,,,,,2016

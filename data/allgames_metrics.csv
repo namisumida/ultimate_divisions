@@ -8556,6 +8556,7 @@ game_id,team_name,team_type,point,throw,break,field,defense,division
 5,sf_revolver,win_team,23,down,,,person,mens
 5,sf_revolver,win_team,23,turn,,,person,mens
 5,sf_revolver,win_team,23,callahan,,endzone,person,mens
+5,sf_revolver,win_team,23,score,,,person,mens
 5,ral_ringoffire,lose_team,1,down,1,full,person,mens
 5,ral_ringoffire,lose_team,1,down,,,person,mens
 5,ral_ringoffire,lose_team,1,huck,,,person,mens
