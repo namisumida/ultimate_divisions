@@ -410,7 +410,10 @@ svg3.selectAll("data_labels3")
      }
    })
    .text(function(d) {
-     return d3.format(".0%")(d.rate);
+     if (d.rate<0.01) {
+       return "<1%";
+     }
+     else {return d3.format(".0%")(d.rate);}
    })
    .style("text-anchor", "middle");
 
