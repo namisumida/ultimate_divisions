@@ -117,7 +117,7 @@ svg8.selectAll("possessed_text")
     });
 svg8.append("text")
     .attr("class", "axis_labels")
-    .text("D-line points in which they gained possession")
+    .text("D-line points in which they gain possession")
     .attr("x", w_circle8-40)
     .attr("y", max_r)
     .style("text-anchor", "start")

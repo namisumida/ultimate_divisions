@@ -1,11 +1,11 @@
 // Width and height
-var margin = {top: 10, bottom: 0, right: 20, left: 20};
+var margin = {top: 10, bottom: 0, right: 20, left: 5};
 var w = document.getElementById("svg-numthrows").getBoundingClientRect().width;
 var h = {svg: document.getElementById("svg-numthrows").getBoundingClientRect().height, head: 0 };
 var h_mens = (h.svg-margin.bottom)/3/2;
 var h_mixed = ((h.svg-margin.bottom*2)/3*(1.5));
 var h_womens = ((h.svg-margin.bottom*2)/3*2.5);
-var w_label = 80; //width of MENS WOMENS MIXED label area
+var w_label = 100; //width of MENS WOMENS MIXED label area
 
 var default_color = coral;
 var color1 = green;
