@@ -175,18 +175,18 @@ svg1.append("text")
 // SVG 2: Completion rates of throws
 var svg2 = d3.select("#svg-completionrates");
 var dataset2 = [{division:"mens", throw:"All throws", rate:.91 }, {division:"mens",throw:"Dump", rate:.99}, {division:"mens",throw:"Swing", rate:.97},
-                {division:"mens",throw:"Short/mid down", rate:.93}, {division:"mens", throw:"Upside-down", rate:.8}, {division:"mens", throw:"Huck", rate:.53},
+                {division:"mens",throw:"Short/mid down", rate:.93}, {division:"mens", throw:"Huck", rate:.53},
                 {division:"mixed", throw:"all", rate:.91}, {division:"mixed",throw:"dump", rate:.98}, {division:"mixed",throw:"swing", rate:.97},
-                {division:"mixed", throw:"down", rate:.92}, {division:"mixed",throw:"over", rate:.79}, {division:"mixed",throw:"huck", rate:.53},
+                {division:"mixed", throw:"down", rate:.92}, {division:"mixed",throw:"huck", rate:.53},
                 {division:"womens", throw:"all", rate:.88}, {division:"womens",throw:"dump", rate:.98}, {division:"womens",throw:"swing", rate:.95},
-                {division:"womens", throw:"down", rate:.88}, {division:"womens",throw:"over", rate:.71}, {division:"womens",throw:"huck", rate:.48}];
+                {division:"womens", throw:"down", rate:.88}, {division:"womens",throw:"huck", rate:.48}];
 var w2 = document.getElementById("svg-completionrates").getBoundingClientRect().width;
 var h2 = document.getElementById("svg-completionrates").getBoundingClientRect().height;
 var w_labels2 = 100;
 var w_spacing2 = 30;
 var h_spacing2 = 5;
 var w_bar2 = (w2-w_labels2-w_spacing2*3)/3;
-var h_bar2 = (h2-50-h_spacing2*5)/6;
+var h_bar2 = (h2-50-h_spacing2*5)/5;
 var xScale2 = d3.scaleLinear()
                 .domain([0,1])
                 .range([10, w_bar2]);
@@ -223,7 +223,7 @@ svg2.selectAll("axis_labels2")
     .attr("class", "axis_labels")
     .attr("x", w_labels2+15)
     .attr("y", function(d,i) {
-      return 50 + (i%6+1)*(h_bar2 + h_spacing2)-h_bar2/2;
+      return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
     })
     .text(function(d) {
       return d.throw;
@@ -244,7 +244,7 @@ svg2.selectAll("bar2")
      else { return w_labels2 + w_spacing2*3 + w_bar2*2; }
    })
    .attr("y", function(d,i) {
-     return 50 + i%6*(h_bar2 + h_spacing2);
+     return 50 + i%5*(h_bar2 + h_spacing2);
    })
    .attr("width", function(d) {
      return xScale2(d.rate);
@@ -265,7 +265,7 @@ svg2.selectAll("bar2")
       else { return w_labels2 + w_spacing2*3 + w_bar2*2 +xScale2(d.rate) - 10; }
     })
     .attr("y", function(d,i) {
-      return 50 + (i%6+1)*(h_bar2 + h_spacing2)-h_bar2/2;
+      return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
     })
     .text(function(d) {
       return d3.format(".0%")(d.rate);
