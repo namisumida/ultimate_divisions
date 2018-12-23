@@ -69,10 +69,11 @@ li {
   margin-top: 0.5em;
 }
 body,html {
-  min-width: 400px;
+  min-width: 700px;
   max-width: 800px;
   margin: 0 auto;
   line-height: 1.7;
+  padding: 0.5em;
 }
 section {
   margin: 0 auto;
