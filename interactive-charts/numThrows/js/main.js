@@ -1,19 +1,21 @@
 // Width and height
-var margin = {top: 10, bottom: 0, right: 20, left: 5};
-var w = document.getElementById("svg-numthrows").getBoundingClientRect().width;
-var h = {svg: document.getElementById("svg-numthrows").getBoundingClientRect().height, head: 0 };
-var h_mens = (h.svg-margin.bottom)/3/2;
-var h_mixed = ((h.svg-margin.bottom*2)/3*(1.5));
-var h_womens = ((h.svg-margin.bottom*2)/3*2.5);
-var w_label = 100; //width of MENS WOMENS MIXED label area
-
-var default_color = coral;
-var color1 = green;
-var color2 = blue;
-var color3 = orange;
-
+var margin = {top: 0, bottom: 10, right: 20, left: 20};
+var w_numthrows = document.getElementById("svg-numthrows").getBoundingClientRect().width;
+var h_numthrows = {svg: 350, head: 0 };
+var h_mens = (h_numthrows.svg-margin.bottom)/3/2;
+var h_mixed = ((h_numthrows.svg-margin.bottom*2)/3*(1.5));
+var h_womens = ((h_numthrows.svg-margin.bottom*2)/3*2.5);
+var w_label = 90; //width of MENS WOMENS MIXED label area
 var radius = 8; // radius of all circles
-var dataset, averages, xScale;
+var dataset, averages, xScale, main_circles, avg_circles, lines, data_labels,min_sub, max_sub, min, max;
+var svg_numthrows = d3.select("#svg-numthrows")
+                      .attr("width", w_numthrows)
+                      .attr("height", h_numthrows.svg);
+
+var default_color = d3.rgb(255,122,115);
+var color1 = d3.rgb(160,223,167);
+var color2 = d3.rgb(104,214,255);
+var color3 = d3.rgb(255,186,102);
 
 // convert data types for some columns
 var rowConverter = function(d) {
@@ -31,7 +33,6 @@ var rowConverter = function(d) {
 };
 
 // finding min and max
-var min_sub, max_sub;
 function find_minsub(sub_dataset) {
   min_sub = {all: d3.min(sub_dataset, function(d) { return d.throws; }),
          mens: d3.min(sub_dataset, function(d) {
@@ -69,82 +70,67 @@ function find_maxsub(sub_dataset) {
   return(max_sub);
 };
 
-// Import data and run everything on this data
-d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data) {
-
-  // Copy data into global dataset
-  dataset = data;
-
-  // Create averages dataset (for additional circles and labels)
-  averages = dataset.filter(function(d) {
-    return d.game_id==0;
-  })
-
+function setup() {
   // Create convenient mins and maxes
-  var min = {all: d3.min(dataset, function(d) { return d.throws; }),
-              mens: d3.min(dataset, function(d) {
-                if (d.division=="mens") {
-                  return d.throws;
-                }}),
-              womens: d3.min(dataset, function(d) {
-                if (d.division=="womens") {
-                  return d.throws;
-                }}),
-              mixed: d3.min(dataset, function(d) {
-                if (d.division=="mixed") {
-                  return d.throws;
-                }})
-              };
+  min = {all: d3.min(dataset, function(d) { return d.throws; }),
+          mens: d3.min(dataset, function(d) {
+            if (d.division=="mens") {
+              return d.throws;
+            }}),
+          womens: d3.min(dataset, function(d) {
+            if (d.division=="womens") {
+              return d.throws;
+            }}),
+          mixed: d3.min(dataset, function(d) {
+            if (d.division=="mixed") {
+              return d.throws;
+            }})
+          };
   var min_list = [min.mens, min.womens, min.mixed];
-  var max = {all: d3.max(dataset, function(d) { return d.throws; }),
-             mens: d3.max(dataset, function(d) {
-                if (d.division=="mens") {
-                  return d.throws;
-                }}),
-             womens: d3.max(dataset, function(d) {
-                if (d.division=="womens") {
-                  return d.throws;
-                }}),
-             mixed: d3.max(dataset, function(d) {
-                if (d.division=="mixed") {
-                  return d.throws;
-                }})
-              };
+  max = {all: d3.max(dataset, function(d) { return d.throws; }),
+         mens: d3.max(dataset, function(d) {
+            if (d.division=="mens") {
+              return d.throws;
+            }}),
+         womens: d3.max(dataset, function(d) {
+            if (d.division=="womens") {
+              return d.throws;
+            }}),
+         mixed: d3.max(dataset, function(d) {
+            if (d.division=="mixed") {
+              return d.throws;
+            }})
+          };
   var max_list = [max.mens, max.womens, max.mixed];
 
   // Create scale function
-  var xScale = d3.scaleLinear()
+  xScale = d3.scaleLinear()
              .domain([min.all, max.all])
-             .range([margin.left+w_label, w-margin.right]);
-
-  // Create an SVG
-  var svg = d3.select("#svg-numthrows")
-        .attr("width", w)
-        .attr("height", h.svg);
+             .range([margin.left+w_label, w_numthrows-margin.right]);
 
   // Create labels for Men's, Mixed, Women's on left side
-  var labels = svg.append("g"); // Create a group
+  var labels = svg_numthrows.append("g"); // Create a group
 
   labels.append("text")
-     .attr("x", margin.left)
-     .attr("y", h_mens+5)
-     .text("MEN'S")
-     .attr("class", "division_labels");
+         .attr("x", margin.left)
+         .attr("y", h_mens+5)
+         .text("MEN'S")
+         .attr("class", "division_labels");
 
   labels.append("text")
-     .attr("x", margin.left)
-     .attr("y", h_mixed+5)
-     .text("MIXED")
-     .attr("class", "division_labels");
+         .attr("x", margin.left)
+         .attr("y", h_mixed+5)
+         .text("MIXED")
+         .attr("class", "division_labels");
 
   labels.append("text")
-     .attr("x", margin.left)
-     .attr("y", h_womens+5)
-     .text("WOMEN'S")
-     .attr("class", "division_labels");
+         .attr("x", margin.left)
+         .attr("y", h_womens+5)
+         .text("WOMEN'S")
+         .attr("class", "division_labels");
 
   // Create lines for MEN'S, MIXED, WOMEN'S
-  var lines = svg.append("g");
+  lines = svg_numthrows.append("g");
   lines.style("stroke", "black")
        .style("opacity", 0.7); //styles that affect all lines
 
@@ -166,79 +152,80 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
 
    // Women's line
    lines.append("line")
-       .attr("id", "womens_line")
-       .attr("x1", xScale(min.womens))
-       .attr("x2", xScale(max.womens))
-       .attr("y1", h_womens)
-       .attr("y2", h_womens);
+         .attr("id", "womens_line")
+         .attr("x1", xScale(min.womens))
+         .attr("x2", xScale(max.womens))
+         .attr("y1", h_womens)
+         .attr("y2", h_womens);
 
    // Add data labels - numbers of throws that are visible on main screen
-   var axis_labels = svg.selectAll("axis_labels")
-     .data(dataset)
-     .enter()
-     .append("text")
-     .attr("class", "axis_labels")
-     .text(function(d) {
-       if ((d.division=="mens" & (d.throws==min.mens | d.throws==max.mens | d.game_id==0)) | // if it's min, max, or average
-           (d.division=="mixed" & (d.throws==min.mixed | d.throws==max.mixed | d.game_id==0)) |
-           (d.division=="womens" & (d.throws==min.womens | d.throws==max.womens | d.game_id==0))) {
-         return d.throws;
-       }
-     })
-     .attr("x", function(d) {
-       return xScale(d.throws)
-     })
-     .attr("y", function(d) {
-       if (d.division=="mens") {
-         return h_mens+30;
-       }
-       else if (d.division=="mixed") {
-         return h_mixed+30;
-       }
-       else {
-         return h_womens+30;
-       }
-     })
-     .style("fill", function(d) {
-       if (d.game_id==0 & (d.year!=99)) {
-           return "none";
-       }
-       else { return "black"; }
-     });
+   data_labels = svg_numthrows.selectAll("data_labels")
+                               .data(dataset)
+                               .enter()
+                               .append("text")
+                               .attr("class", "data_labels")
+                               .text(function(d) {
+                                 if ((d.division=="mens" & (d.throws==min.mens | d.throws==max.mens | d.game_id==0)) | // if it's min, max, or average
+                                     (d.division=="mixed" & (d.throws==min.mixed | d.throws==max.mixed | d.game_id==0)) |
+                                     (d.division=="womens" & (d.throws==min.womens | d.throws==max.womens | d.game_id==0))) {
+                                   return d.throws;
+                                 }
+                               })
+                               .attr("x", function(d) {
+                                 return xScale(d.throws)
+                               })
+                               .attr("y", function(d) {
+                                 if (d.division=="mens") {
+                                   return h_mens+30;
+                                 }
+                                 else if (d.division=="mixed") {
+                                   return h_mixed+30;
+                                 }
+                                 else {
+                                   return h_womens+30;
+                                 }
+                               })
+                               .style("fill", function(d) {
+                                 if (d.game_id==0 & (d.year!=99)) {
+                                     return "none";
+                                 }
+                                 else { return "black"; }
+                               });
 
   // Outer circles for averages
-  var avg_circles = svg.selectAll("avg_circles")
-     .data(averages)
-     .enter()
-     .append("circle")
-     .attr("cx", function(d) {
-        return xScale(d.throws);
-     })
-     .attr("cy", function(d) {
-        if (d.division=="mens") {
-          return h_mens;
-        }
-        else if (d.division=="mixed") {
-          return h_mixed;
-        }
-        else {
-          return h_womens;
-        }
-     })
-     .attr("r", radius*1.5)
-     .style("fill", "none")
-     .style("stroke", function(d) {
-       if (d.year!=99) { // do not show the 2016 and 2017 ones
-         return "none";
-       }
-       else { return default_color; }
-     });
+  avg_circles = svg_numthrows.selectAll("avg_circles")
+                             .data(averages)
+                             .enter()
+                             .append("circle")
+                             .attr("cx", function(d) {
+                                return xScale(d.throws);
+                             })
+                             .attr("cy", function(d) {
+                                if (d.division=="mens") {
+                                  return h_mens;
+                                }
+                                else if (d.division=="mixed") {
+                                  return h_mixed;
+                                }
+                                else {
+                                  return h_womens;
+                                }
+                             })
+                             .attr("r", radius*1.5)
+                             .style("fill", "none")
+                             .style("stroke", function(d) {
+                               if (d.year!=99) { // do not show the 2016 and 2017 ones
+                                 return "none";
+                               }
+                               else { return default_color; }
+                             });
 
   // Initially create all circles
-  var main_circles = svg.selectAll("main_circles")
-     .data(dataset)
-     .enter()
-     .append("circle");
+  main_circles = svg_numthrows.selectAll("main_circles")
+                               .data(dataset)
+                               .enter()
+                               .append("circle")
+                               .attr("class", "main_circles");
 
   // Define things that all circles will have
   main_circles.attr("cx", function(d) {
@@ -272,19 +259,19 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
             var yPosition = parseFloat(d3.select(this).attr("cy"));
 
             // Create a tooltip - info about game
-            svg.append("text")
+            svg_numthrows.append("text")
                 .attr("id", "tooltip1")
                 .attr("class", "tooltips")
                 .attr("x", xPosition)
                 .attr("y", yPosition+48)
                 .style("text-anchor", function() {
-                  if (xPosition < (w - margin.right - 100)) { // if not near the right margin
+                  if (xPosition < (w_numthrows - margin.right - 100)) { // if not near the right margin
                     if (xPosition < (margin.left + w_label) + 100) { // if near the left margin...
                       return "start";
                     }
                     else { return "middle"; } // else it's somewhere in the middle of the graphic
                   }
-                  else if (xPosition >= (w - margin.right - 100)) { // near the right margin
+                  else if (xPosition >= (w_numthrows - margin.right - 100)) { // near the right margin
                     return "end";
                   }
                 })
@@ -302,18 +289,18 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
                     return d.year + " " + d.tournament + " " + d.game_type;
                   }
                 });
-            svg.append("text")
+            svg_numthrows.append("text")
                 .attr("class", "tooltips")
                 .attr("x", xPosition)
                 .attr("y", yPosition+60)
                 .style("text-anchor", function() {
-                  if (xPosition < (w - margin.right - 100)) { // if not near the right margin
+                  if (xPosition < (w_numthrows - margin.right - 100)) { // if not near the right margin
                     if (xPosition < (margin.left + w_label) + 100) { // if near the left margin...
                       return "start";
                     }
                     else { return "middle"; } // else it's somewhere in the middle of the graphic
                   }
-                  else if (xPosition >= (w - margin.right - 100)) { // near the right margin
+                  else if (xPosition >= (w_numthrows - margin.right - 100)) { // near the right margin
                     return "end";
                   }
                 })
@@ -324,24 +311,23 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
                 });
 
             // other data labels on that line disappear
-            svg.append("rect")
-               .attr("id", "label_background")
-               .attr("x", w_label+margin.left-10)
-               .attr("y", yPosition+15)
-               .attr("width", w-(w_label+margin.left-10))
-               .attr("height", 20)
-               .style("fill", "white");
+            svg_numthrows.append("rect")
+                         .attr("id", "label_background")
+                         .attr("x", w_label+margin.left-10)
+                         .attr("y", yPosition+15)
+                         .attr("width", w_numthrows-(w_label+margin.left-10))
+                         .attr("height", 20)
+                         .style("fill", "white");
 
             // add temp data label
-            svg.append("text")
-               .text(d.throws)
-               .attr("id", "temp_datalabels")
-               .attr("class", "axis_labels")
-               .attr("x", xPosition)
-               .attr("y", yPosition+30)
-               .style("font-weight", "bold");
-
-          })
+            svg_numthrows.append("text")
+                         .text(d.throws)
+                         .attr("id", "temp_datalabels")
+                         .attr("class", "data_labels")
+                         .attr("x", xPosition)
+                         .attr("y", yPosition+30)
+                         .style("font-weight", "bold");
+          }) // end on mouseover
           .on("mouseout", function() {
               d3.selectAll(".tooltips").remove();
               d3.select("#temp_datalabels").remove();
@@ -349,7 +335,151 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
               d3.select(this)
                 .style("fill", default_color)
                 .style("opacity", 0.75);
-          });
+          }); // end on mouseout
+}; // end setup function
+
+function resize() {
+  w_numthrows = document.getElementById("svg-numthrows").getBoundingClientRect().width;
+
+  // Create scale function
+  xScale = d3.scaleLinear()
+             .domain([min.all, max.all])
+             .range([margin.left+w_label, w_numthrows-margin.right]);
+
+  // Men's line
+  lines.select("#mens_line")
+       .attr("x1", xScale(min.mens))
+       .attr("x2", xScale(max.mens));
+
+  // Mixed line
+  lines.select("#mixed_line")
+       .attr("x1", xScale(min.mixed))
+       .attr("x2", xScale(max.mixed));
+
+   // Women's line
+   lines.select("#womens_line")
+         .attr("x1", xScale(min.womens))
+         .attr("x2", xScale(max.womens));
+
+   // Add data labels - numbers of throws that are visible on main screen
+   data_labels.attr("x", function(d) {
+                 return xScale(d.throws)
+               });
+
+  // Outer circles for averages
+  avg_circles.attr("cx", function(d) {
+                return xScale(d.throws);
+             });
+
+  // Define things that all circles will have
+  main_circles.attr("cx", function(d) {
+                return xScale(d.throws)
+              });
+
+  // Hover for non-average circles
+  main_circles.on("mouseover", function(d) { // on mouseover, see details
+                d3.select(this).style("opacity", 1)
+
+                var xPosition = parseFloat(d3.select(this).attr("cx"));
+                var yPosition = parseFloat(d3.select(this).attr("cy"));
+
+                // Create a tooltip - info about game
+                svg_numthrows.append("text")
+                    .attr("id", "tooltip1")
+                    .attr("class", "tooltips")
+                    .attr("x", xPosition)
+                    .attr("y", yPosition+48)
+                    .style("text-anchor", function() {
+                      if (xPosition < (w_numthrows - margin.right - 100)) { // if not near the right margin
+                        if (xPosition < (margin.left + w_label) + 100) { // if near the left margin...
+                          return "start";
+                        }
+                        else { return "middle"; } // else it's somewhere in the middle of the graphic
+                      }
+                      else if (xPosition >= (w_numthrows - margin.right - 100)) { // near the right margin
+                        return "end";
+                      }
+                    })
+                    .text(function() {
+                      if (d.game_id==0) {
+                        if (d.year==2016) {
+                          return "2016 Average";
+                        }
+                        else if (d.year==2017) {
+                          return "2017 Average";
+                        }
+                        else { return "Average of all games"; }
+                      }
+                      else {
+                        return d.year + " " + d.tournament + " " + d.game_type;
+                      }
+                    });
+                svg_numthrows.append("text")
+                    .attr("class", "tooltips")
+                    .attr("x", xPosition)
+                    .attr("y", yPosition+60)
+                    .style("text-anchor", function() {
+                      if (xPosition < (w_numthrows - margin.right - 100)) { // if not near the right margin
+                        if (xPosition < (margin.left + w_label) + 100) { // if near the left margin...
+                          return "start";
+                        }
+                        else { return "middle"; } // else it's somewhere in the middle of the graphic
+                      }
+                      else if (xPosition >= (w_numthrows - margin.right - 100)) { // near the right margin
+                        return "end";
+                      }
+                    })
+                    .text(function() {
+                      if (d.game_id!=0) {
+                        return teamName_convert(d.win_team) + " (" + d.score.split("-")[0] + ") vs. " + teamName_convert(d.lose_team) + " (" + d.score.split("-")[1] + ")";
+                      }
+                    });
+
+                // other data labels on that line disappear
+                svg_numthrows.append("rect")
+                             .attr("id", "label_background")
+                             .attr("x", w_label+margin.left-10)
+                             .attr("y", yPosition+15)
+                             .attr("width", w_numthrows-(w_label+margin.left-10))
+                             .attr("height", 20)
+                             .style("fill", "white");
+
+                // add temp data label
+                svg_numthrows.append("text")
+                             .text(d.throws)
+                             .attr("id", "temp_datalabels")
+                             .attr("class", "data_labels")
+                             .attr("x", xPosition)
+                             .attr("y", yPosition+30)
+                             .style("font-weight", "bold");
+              }) // end on mouseover
+              .on("mouseout", function() {
+                  d3.selectAll(".tooltips").remove();
+                  d3.select("#temp_datalabels").remove();
+                  d3.select("#label_background").remove();
+                  d3.select(this)
+                    .style("fill", default_color)
+                    .style("opacity", 0.75);
+              }); // end on mouseout
+}; // end resize
+
+function init() {
+  setup();
+  window.addEventListener('resize', resize);
+}; // end init()
+
+// Import data and run everything on this data
+d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data) {
+
+  // Copy data into global dataset
+  dataset = data;
+
+  // Create averages dataset (for additional circles and labels)
+  averages = dataset.filter(function(d) {
+    return d.game_id==0;
+  })
+
+  init();
 
   // INTERACTIVITY
   // Filtering options
@@ -436,7 +566,7 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
              .attr("x2", xScale(max_sub.womens));
 
         // Data labels
-        axis_labels.text(function(d) {
+        data_labels.text(function(d) {
                       if ((d.division=="mens" & (d.throws==min_sub.mens | d.throws==max_sub.mens | d.game_id==0)) | // if it's min, max, or average
                          (d.division=="mixed" & (d.throws==min_sub.mixed | d.throws==max_sub.mixed | d.game_id==0)) |
                          (d.division=="womens" & (d.throws==min_sub.womens | d.throws==max_sub.womens | d.game_id==0))) {
@@ -494,7 +624,7 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
              .attr("x2", xScale(max.womens));
 
         // Data labels return to normal
-        axis_labels.style("fill", function(d) {
+        data_labels.style("fill", function(d) {
                       if (d.game_id==0 &(d.year!=99)) {
                          return "none";
                       }
@@ -510,17 +640,8 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
       }; // end of else
   }); // end on filtering
 
+  // Checkboxes
   var hover_year = 0;
-
-  d3.select("#checkbox_2016")
-    .on("change", update_checkboxes);
-
-  d3.select("#checkbox_2017")
-    .on("change", update_checkboxes);
-
-  d3.select("#checkbox_2018")
-    .on("change", update_checkboxes);
-
   function update_checkboxes() {
 
     // Get info on current setting
@@ -565,11 +686,11 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
                   .style("stroke", fill);
 
       // Data labels
-      axis_labels.filter(function(d) { // only show the "new" average
+      data_labels.filter(function(d) { // only show the "new" average
                     return d.year==hover_year & d.game_id==0;
                   })
                   .style("fill", fill);
-      axis_labels.filter(function(d) { // don't show the universal average data label
+      data_labels.filter(function(d) { // don't show the universal average data label
                     return d.game_id==0 & d.year==99;
                   })
                   .style("fill", "none");
@@ -602,7 +723,7 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
                 .style("stroke", "none");
 
      // Data labels return to normal
-     axis_labels.style("fill", function(d) {
+     data_labels.style("fill", function(d) {
                    if (d.game_id==0 &(d.year!=99)) {
                       return "none";
                    }
@@ -617,5 +738,14 @@ d3.csv("interactive-charts/numThrows/numThrows.csv", rowConverter, function(data
                  });
     } // end else statement
   } // end edit checkboxes function
+
+  d3.select("#checkbox_2016")
+    .on("change", update_checkboxes);
+
+  d3.select("#checkbox_2017")
+    .on("change", update_checkboxes);
+
+  d3.select("#checkbox_2018")
+    .on("change", update_checkboxes);
 
 }); // end d3.csv

@@ -13,111 +13,48 @@ var top1 = 30;
 var w_pieSpace1 = (w1-w_spacing1*4)/3;
 var w_pie1 = w_pieSpace1*.8;
 var outerRadius1 = w_pie1/2;
-svg1.selectAll("division_labels1")
-    .data(dataset_divisions)
-    .enter()
-    .append("text")
-    .attr("class", "division_labels")
-    .attr("x", function(d) {
-      if (d=="mens") {
-        return left1 + w_spacing1 + w_pieSpace1/2;
-      }
-      else if (d=="mixed") {
-        return left1 + w_spacing1*2 + w_pieSpace1*1.5;
-      }
-      else { return left1 + w_spacing1*3 + w_pieSpace1*2.5; }
-    })
-    .attr("y", 30)
-    .text(function(d) {
-      if (d=="mens") {
-        return "MEN'S"
-      }
-      else if (d=="mixed") {
-        return "MIXED"
-      }
-      else { return "WOMEN'S"; }
-    })
-    .style("text-anchor", "middle");
-pie1 = d3.pie();
-arc1 = d3.arc()
-         .innerRadius(0)
-         .outerRadius(outerRadius1);
-mensArcs1 = svg1.selectAll("g.arc1")
-                .data(pie1(dataset1_mens))
-                .enter()
-                .append("g")
-                .attr("class", "arc")
-                .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1/2) + ", " + (top1+40 + w_pie1/2) + ")");
-mensArcs1.append("path")
-         .style("fill", function(d,i) {
-           return colors1[i];
-         })
-         .attr("d", arc1);
-mensArcs1.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d,i) {
-           if (i==4) {
-             return arc1.centroid(d)[0]+10;
-           }
-           else if (i>1) {
-             return arc1.centroid(d)[0]*1.5
-           }
-           else { return arc1.centroid(d)[0]; }
-         })
-         .attr("y", function(d,i) {
-           if (i>1) {
-             return arc1.centroid(d)[1]*1.5
-           }
-           else { return arc1.centroid(d)[1]; }
-         })
-         .text(function(d) {
-           return d.value + "%";
-         });
-mixedArcs1 = svg1.selectAll("g.arc2")
-                  .data(pie1(dataset1_mixed))
+function chart1_setup() {
+  svg1.selectAll("division_labels1")
+      .data(dataset_divisions)
+      .enter()
+      .append("text")
+      .attr("class", "division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return left1 + w_spacing1 + w_pieSpace1/2;
+        }
+        else if (d=="mixed") {
+          return left1 + w_spacing1*2 + w_pieSpace1*1.5;
+        }
+        else { return left1 + w_spacing1*3 + w_pieSpace1*2.5; }
+      })
+      .attr("y", 30)
+      .text(function(d) {
+        if (d=="mens") {
+          return "MEN'S"
+        }
+        else if (d=="mixed") {
+          return "MIXED"
+        }
+        else { return "WOMEN'S"; }
+      })
+      .style("text-anchor", "middle");
+  pie1 = d3.pie();
+  arc1 = d3.arc()
+           .innerRadius(0)
+           .outerRadius(outerRadius1);
+  mensArcs1 = svg1.selectAll("g.arc1")
+                  .data(pie1(dataset1_mens))
                   .enter()
                   .append("g")
                   .attr("class", "arc")
-                  .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*1.5) + ", " + (top1+40 + w_pie1/2) + ")");
-mixedArcs1.append("path")
-          .style("fill", function(d,i) {
-           return colors1[i];
-          })
-          .attr("d", arc1);
-mixedArcs1.append("text")
-          .attr("text-anchor", "middle")
-          .attr("class", "data_labels")
-          .attr("x", function(d,i) {
-            if (i==4) {
-              return arc1.centroid(d)[0]+10;
-            }
-            else if (i>1) {
-              return arc1.centroid(d)[0]*1.5
-            }
-            else { return arc1.centroid(d)[0]; }
-          })
-          .attr("y", function(d,i) {
-            if (i>1) {
-              return arc1.centroid(d)[1]*1.5
-            }
-            else { return arc1.centroid(d)[1]; }
-          })
-          .text(function(d) {
-           return d.value + "%";
-         });
-womensArcs1 = svg1.selectAll("g.arc3")
-                  .data(pie1(dataset1_womens))
-                  .enter()
-                  .append("g")
-                  .attr("class", "arc")
-                  .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*2.5) + ", " + (top1+40 + w_pie1/2) + ")");
-womensArcs1.append("path")
-         .style("fill", function(d,i) {
-           return colors1[i];
-         })
-         .attr("d", arc1);
-womensArcs1.append("text")
+                  .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1/2) + ", " + (top1+40 + w_pie1/2) + ")");
+  mensArcs1.append("path")
+           .style("fill", function(d,i) {
+             return colors1[i];
+           })
+           .attr("d", arc1);
+  mensArcs1.append("text")
            .attr("text-anchor", "middle")
            .attr("class", "data_labels")
            .attr("x", function(d,i) {
@@ -136,41 +73,112 @@ womensArcs1.append("text")
              else { return arc1.centroid(d)[1]; }
            })
            .text(function(d) {
-             if (d.value>1) {
-               return d.value + "%";
-             }
-             else { return "<1%"; }
+             return d.value + "%";
            });
-down_label1 = svg1.append("text")
-                   .attr("class", "axis_labels")
-                   .text("Short/mid down")
-                   .attr("x", left1+w_spacing1+w_pieSpace1)
-                   .attr("y", h1-50)
-                   .call(wrap, 50);
-swing_label1 = svg1.append("text")
-                   .attr("class", "axis_labels")
-                   .text("Swing")
-                   .attr("x", left1+w_pieSpace1/20)
-                   .attr("y", top1+w_pieSpace1*3/4)
-                   .call(wrap, 50);
-dump_label1 = svg1.append("text")
-                   .attr("class", "axis_labels")
-                   .text("Dump")
-                   .attr("x", left1+w_pieSpace1/9)
-                   .attr("y", top1+w_pieSpace1/3)
-                   .call(wrap, 50);
-huck_label1 = svg1.append("text")
-                   .attr("class", "axis_labels")
-                   .text("Huck")
-                   .attr("x", left1+w_pieSpace1/3)
-                   .attr("y", top1+w_pieSpace1/6)
-                   .call(wrap, 50);
-upsidedown_label1 = svg1.append("text")
-                         .attr("class", "axis_labels")
-                         .text("Upside-down")
-                         .attr("x", left1+w_pieSpace1*3/4)
-                         .attr("y", top1+w_pieSpace1/14)
-                         .call(wrap, 50);
+  mixedArcs1 = svg1.selectAll("g.arc2")
+                    .data(pie1(dataset1_mixed))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*1.5) + ", " + (top1+40 + w_pie1/2) + ")");
+  mixedArcs1.append("path")
+            .style("fill", function(d,i) {
+             return colors1[i];
+            })
+            .attr("d", arc1);
+  mixedArcs1.append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "data_labels")
+            .attr("x", function(d,i) {
+              if (i==4) {
+                return arc1.centroid(d)[0]+10;
+              }
+              else if (i>1) {
+                return arc1.centroid(d)[0]*1.5
+              }
+              else { return arc1.centroid(d)[0]; }
+            })
+            .attr("y", function(d,i) {
+              if (i>1) {
+                return arc1.centroid(d)[1]*1.5
+              }
+              else { return arc1.centroid(d)[1]; }
+            })
+            .text(function(d) {
+             return d.value + "%";
+           });
+  womensArcs1 = svg1.selectAll("g.arc3")
+                    .data(pie1(dataset1_womens))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*2.5) + ", " + (top1+40 + w_pie1/2) + ")");
+  womensArcs1.append("path")
+           .style("fill", function(d,i) {
+             return colors1[i];
+           })
+           .attr("d", arc1);
+  womensArcs1.append("text")
+             .attr("text-anchor", "middle")
+             .attr("class", "data_labels")
+             .attr("x", function(d,i) {
+               if (i==4) {
+                 return arc1.centroid(d)[0]+10;
+               }
+               else if (i>1) {
+                 return arc1.centroid(d)[0]*1.5
+               }
+               else { return arc1.centroid(d)[0]; }
+             })
+             .attr("y", function(d,i) {
+               if (i>1) {
+                 return arc1.centroid(d)[1]*1.5
+               }
+               else { return arc1.centroid(d)[1]; }
+             })
+             .text(function(d) {
+               if (d.value>1) {
+                 return d.value + "%";
+               }
+               else { return "<1%"; }
+             });
+  down_label1 = svg1.append("text")
+                     .attr("class", "axis_labels")
+                     .text("Short/mid down")
+                     .attr("x", left1+w_spacing1+w_pieSpace1)
+                     .attr("y", h1-50)
+                     .call(wrap, 50);
+  swing_label1 = svg1.append("text")
+                     .attr("class", "axis_labels")
+                     .text("Swing")
+                     .attr("x", left1+w_pieSpace1/20)
+                     .attr("y", top1+w_pieSpace1*3/4)
+                     .call(wrap, 50);
+  dump_label1 = svg1.append("text")
+                     .attr("class", "axis_labels")
+                     .text("Dump")
+                     .attr("x", left1+w_pieSpace1/9)
+                     .attr("y", top1+w_pieSpace1/3)
+                     .call(wrap, 50);
+  huck_label1 = svg1.append("text")
+                     .attr("class", "axis_labels")
+                     .text("Huck")
+                     .attr("x", left1+w_pieSpace1/3)
+                     .attr("y", top1+w_pieSpace1/6)
+                     .call(wrap, 50);
+  upsidedown_label1 = svg1.append("text")
+                           .attr("class", "axis_labels")
+                           .text("Upside-down")
+                           .attr("x", left1+w_pieSpace1*3/4)
+                           .attr("y", top1+w_pieSpace1/14)
+                           .call(wrap, 50);
+}; // end chart 1 setup
+function chart1_resize() {
+  w1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().width;
+  w_pieSpace1 = (w1-w_spacing1*4)/3;
+  w_pie1 = w_pieSpace1*.8;
+  outerRadius1 = w_pie1/2;
+}; // end chart 1 resize
 
 // SVG 2: Completion rates of throws
 var svg2 = d3.select("#svg-completionrates");
@@ -182,95 +190,147 @@ var dataset2 = [{division:"mens", throw:"All throws", rate:.91 }, {division:"men
                 {division:"womens", throw:"down", rate:.88}, {division:"womens",throw:"huck", rate:.48}];
 var w2 = document.getElementById("svg-completionrates").getBoundingClientRect().width;
 var h2 = document.getElementById("svg-completionrates").getBoundingClientRect().height;
-var w_labels2 = 100;
-var w_spacing2 = 30;
+if (w2>=568) {
+  var w_labels2 = 100;
+}
+else { var w_labels2 = 75; }
+var w_spacing2 = 10;
 var h_spacing2 = 5;
+var left2 = 5;
 var w_bar2 = (w2-w_labels2-w_spacing2*3)/3;
 var h_bar2 = (h2-50-h_spacing2*5)/5;
 var xScale2 = d3.scaleLinear()
                 .domain([0,1])
                 .range([10, w_bar2]);
-svg2.selectAll("division_labels2")
-    .data(dataset_divisions)
-    .enter()
-    .append("text")
-    .attr("class", "division_labels")
-    .attr("x", function(d) {
-      if (d=="mens") {
-        return w_labels2 + w_spacing2 + w_bar2/2;
-      }
-      else if (d=="mixed") {
-        return w_labels2 + w_spacing2*2 + w_bar2*1.5;
-      }
-      else { return w_labels2 + w_spacing2*3 + w_bar2*2.5; }
-    })
-    .attr("y", 30)
-    .text(function(d) {
-      if (d=="mens") {
-        return "MEN'S"
-      }
-      else if (d=="mixed") {
-        return "MIXED"
-      }
-      else { return "WOMEN'S"; }
-    })
-    .style("text-anchor", "middle");
-svg2.selectAll("axis_labels2")
-    .data(dataset2)
-    .enter()
-    .filter(function(d) { return d.division=="mens"; })
-    .append("text")
-    .attr("class", "axis_labels")
-    .attr("x", w_labels2+15)
-    .attr("y", function(d,i) {
-      return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
-    })
-    .text(function(d) {
-      return d.throw;
-    })
-    .style("text-anchor", "end");
-svg2.selectAll("bar2")
-   .data(dataset2)
-   .enter()
-   .append("rect")
-   .attr("class", "bar2")
-   .attr("x", function(d) {
-     if (d.division=="mens") {
-       return w_labels2 + w_spacing2;
-     }
-     else if (d.division=="mixed") {
-       return w_labels2 + w_spacing2*2 + w_bar2;
-     }
-     else { return w_labels2 + w_spacing2*3 + w_bar2*2; }
-   })
-   .attr("y", function(d,i) {
-     return 50 + i%5*(h_bar2 + h_spacing2);
-   })
-   .attr("width", function(d) {
-     return xScale2(d.rate);
-   })
-   .attr("height", h_bar2);
- svg2.selectAll("data_labels2")
-    .data(dataset2)
-    .enter()
-    .append("text")
-    .attr("class", "data_labels")
-    .attr("x", function(d) {
-      if (d.division=="mens") {
-        return w_labels2 + w_spacing2 + xScale2(d.rate) - 10;
-      }
-      else if (d.division=="mixed") {
-        return w_labels2 + w_spacing2*2 + w_bar2 +xScale2(d.rate) - 10;
-      }
-      else { return w_labels2 + w_spacing2*3 + w_bar2*2 +xScale2(d.rate) - 10; }
-    })
-    .attr("y", function(d,i) {
-      return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
-    })
-    .text(function(d) {
-      return d3.format(".0%")(d.rate);
-    })
-    .style("text-anchor", "end");
+function chart2_setup() {
+  svg2.selectAll("division_labels2")
+      .data(dataset_divisions)
+      .enter()
+      .append("text")
+      .attr("class", "division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return w_labels2 + w_spacing2 + w_bar2/2;
+        }
+        else if (d=="mixed") {
+          return w_labels2 + w_spacing2*2 + w_bar2*1.5;
+        }
+        else { return w_labels2 + w_spacing2*3 + w_bar2*2.5; }
+      })
+      .attr("y", 30)
+      .text(function(d) {
+        if (d=="mens") {
+          return "MEN'S"
+        }
+        else if (d=="mixed") {
+          return "MIXED"
+        }
+        else { return "WOMEN'S"; }
+      })
+      .style("text-anchor", "middle");
+  svg2.selectAll("axis_labels2")
+      .data(dataset2)
+      .enter()
+      .filter(function(d) { return d.division=="mens"; })
+      .append("text")
+      .attr("class", "axis_labels")
+      .attr("x", w_labels2+left2)
+      .attr("y", function(d,i) {
+        return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
+      })
+      .text(function(d) {
+        return d.throw;
+      })
+      .style("text-anchor", "end");
+  svg2.selectAll("bar2")
+     .data(dataset2)
+     .enter()
+     .append("rect")
+     .attr("class", "bar2")
+     .attr("x", function(d) {
+       if (d.division=="mens") {
+         return w_labels2+left2+w_spacing2;
+       }
+       else if (d.division=="mixed") {
+         return w_labels2 + w_spacing2*2 + w_bar2;
+       }
+       else { return w_labels2 + w_spacing2*3 + w_bar2*2; }
+     })
+     .attr("y", function(d,i) {
+       return 50 + i%5*(h_bar2 + h_spacing2);
+     })
+     .attr("width", function(d) {
+       return xScale2(d.rate);
+     })
+     .attr("height", h_bar2);
+   svg2.selectAll("data_labels2")
+      .data(dataset2)
+      .enter()
+      .append("text")
+      .attr("class", "data_labels")
+      .attr("x", function(d) {
+        if (d.division=="mens") {
+          return w_labels2 + w_spacing2 + xScale2(d.rate) - 5;
+        }
+        else if (d.division=="mixed") {
+          return w_labels2 + w_spacing2*2 + w_bar2 +xScale2(d.rate) - 5;
+        }
+        else { return w_labels2 + w_spacing2*3 + w_bar2*2 +xScale2(d.rate) - 5; }
+      })
+      .attr("y", function(d,i) {
+        return 50 + (i%5+1)*(h_bar2 + h_spacing2)-h_bar2/2;
+      })
+      .text(function(d) {
+        return d3.format(".0%")(d.rate);
+      })
+      .style("text-anchor", "end");
+}; // end chart2 setup
+function chart2_resize() {
+  w2 = document.getElementById("svg-completionrates").getBoundingClientRect().width;
+  w_bar2 = (w2-w_labels2-w_spacing2*3)/3;
+  xScale2 = d3.scaleLinear()
+              .domain([0,1])
+              .range([10, w_bar2]);
+  if (w2>=568) {
+    w_labels2 = 100;
+  }
+  else { w_labels2 = 75; }
+  svg2.selectAll(".division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return w_labels2 + w_spacing2 + w_bar2/2;
+        }
+        else if (d=="mixed") {
+          return w_labels2 + w_spacing2*2 + w_bar2*1.5;
+        }
+        else { return w_labels2 + w_spacing2*3 + w_bar2*2.5; }
+      });
+  svg2.selectAll(".axis_labels")
+      .attr("x", w_labels2+left2);
+  svg2.selectAll(".bar2")
+       .attr("x", function(d) {
+         if (d.division=="mens") {
+           return w_labels2+left2+w_spacing2;
+         }
+         else if (d.division=="mixed") {
+           return w_labels2 + w_spacing2*2 + w_bar2;
+         }
+         else { return w_labels2 + w_spacing2*3 + w_bar2*2; }
+       })
+       .attr("width", function(d) {
+         return xScale2(d.rate);
+       });
+   svg2.selectAll(".data_labels")
+        .attr("x", function(d) {
+          if (d.division=="mens") {
+            return w_labels2 + w_spacing2 + xScale2(d.rate) - 5;
+          }
+          else if (d.division=="mixed") {
+            return w_labels2 + w_spacing2*2 + w_bar2 +xScale2(d.rate) - 5;
+          }
+          else { return w_labels2 + w_spacing2*3 + w_bar2*2 +xScale2(d.rate) - 5; }
+        });
+}; // end resize chart 2
 //////////////////////////////////////////////////////////////////////////////
 // SVG 3: Scored throws
 var svg3 = d3.select("#svg-scoredthrows");
@@ -281,141 +341,222 @@ var w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().wid
 var h3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().height;
 var bottom3 = 5;
 var w_labels3 = 100;
-var w_spacing3 = 30;
+if (w3 >= 300) {
+  var w_spacing3 = 30;
+}
+else { var w_spacing3 = 10; }
 var w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
 var h_bar3 = h3 - 50 - bottom3;
 var yScale3 = d3.scaleLinear()
                 .domain([0,1])
-                .range([3,h_bar3])
-svg3.selectAll("division_labels3")
-    .data(dataset_divisions)
-    .enter()
-    .append("text")
-    .attr("class", "division_labels")
-    .attr("x", function(d) {
-      if (d=="mens") {
-        return w_labels3 + w_bar3/2;
-      }
-      else if (d=="mixed") {
-        return w_labels3 + w_bar3*1.5 + w_spacing3
-      }
-      else { return w_labels3 + w_bar3*2.5 + w_spacing3*2; }
-    })
-    .attr("y", 30)
-    .text(function(d) {
-      if (d=="mens") {
-        return "MEN'S"
-      }
-      else if (d=="mixed") {
-        return "MIXED"
-      }
-      else { return "WOMEN'S"; }
-    })
-    .style("text-anchor", "middle");
-svg3.selectAll("axis_labels3")
-    .data(dataset3)
-    .enter()
-    .filter(function(d) { return d.division=="mens"; })
-    .append("text")
-    .attr("class", "axis_labels")
-    .attr("x", w_labels3-10)
-    .attr("y", function(d,i) {
-      if (d.throw=="Huck" | d.throw=="Short/mid down") {
-        return 50+yScale3(d.net-d.rate/2);
-      }
-      else if (d.throw=="Upside-down") {
-        return 45+yScale3(d.net-d.rate/2);
-      }
-      else if (d.throw=="Swing") {
-        return 48+yScale3(d.net-d.rate/2);
-      }
-      else if (d.throw=="Callahan") {
-        return 55+yScale3(d.net-d.rate/2);
-      }
-    })
-    .text(function(d) {
-      return d.throw;
-    })
-    .call(wrap, 90)
-    .style("text-anchor", "end");
-svg3.selectAll("bar3")
-    .data(dataset3)
-    .enter()
-    .append("rect")
-    .attr("class", "bar3")
-    .attr("x", function(d) {
-      if (d.division=="mens") {
-        return w_labels3;
-      }
-      else if (d.division == "mixed") {
-        return w_labels3 + w_bar3 + w_spacing3;
-      }
-      else {
-        return w_labels3 + w_bar3*2 + w_spacing3*2;
-      }
-    })
-    .attr("y", function(d,i) {
-      return 45+yScale3(d.net-d.rate);
-    })
-    .attr("width", w_bar3)
-    .attr("height", function(d) {
-      return yScale3(d.rate)
-    })
-    .style("fill", function(d) {
-      if (d.throw=="down" | d.throw=="Short/mid down") {
-        return green;
-      }
-      else if (d.throw=="huck" | d.throw=="Huck") {
-        return orange;
-      }
-      else if (d.throw=="over" | d.throw=="Upside-down") {
-        return coral;
-      }
-      else if (d.throw=="callahan" | d.throw=="Callahan") {
-        return pink;
-      }
-      else { return blue; }
-    })
-svg3.selectAll("data_labels3")
-   .data(dataset3)
-   .enter()
-   .append("text")
-   .attr("class", "data_labels")
-   .attr("x", function(d) {
-     if (d.division=="mens") {
-       return w_labels3 + w_bar3/2;
-     }
-     else if (d.division == "mixed") {
-       return w_labels3 + w_bar3 + w_spacing3 + w_bar3/2;
-     }
-     else {
-       return w_labels3 + w_bar3*2 + w_spacing3*2 + w_bar3/2;
-     }
-   })
-   .attr("y", function(d,i) {
-     if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
-      return 50+yScale3(d.net-d.rate/2);
-     }
-     else if (d.throw=="Upside-down" | d.throw=="over") {
-       return 45+yScale3(d.net-d.rate/2);
-     }
-     else if (d.throw=="Swing" | d.throw=="swing") {
-       if (d.division=="womens") {
-         return 52+yScale3(d.net-d.rate/2);
+                .range([3,h_bar3]);
+
+function chart3_setup() {
+  svg3.selectAll("division_labels3")
+      .data(dataset_divisions)
+      .enter()
+      .append("text")
+      .attr("class", "division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return w_labels3 + w_bar3/2;
+        }
+        else if (d=="mixed") {
+          return w_labels3 + w_bar3*1.5 + w_spacing3
+        }
+        else { return w_labels3 + w_bar3*2.5 + w_spacing3*2; }
+      })
+      .attr("y", 30)
+      .text(function(d) {
+        if (w3 >= 250) {
+          if (d=="mens") {
+            return "MEN'S"
+          }
+          else if (d=="mixed") {
+            return "MIXED"
+          }
+          else { return "WOMEN'S"; }
+        }
+        else {
+          if (d=="mens") {
+            return "M"
+          }
+          else if (d=="mixed") {
+            return "X"
+          }
+          else { return "W"; }
+        }
+      })
+      .style("text-anchor", "middle");
+  svg3.selectAll("axis_labels3")
+      .data(dataset3)
+      .enter()
+      .filter(function(d) { return d.division=="mens"; })
+      .append("text")
+      .attr("class", "axis_labels")
+      .attr("x", w_labels3-10)
+      .attr("y", function(d,i) {
+        if (d.throw=="Huck" | d.throw=="Short/mid down") {
+          return 50+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Upside-down") {
+          return 45+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Swing") {
+          return 48+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Callahan") {
+          return 55+yScale3(d.net-d.rate/2);
+        }
+      })
+      .text(function(d) {
+        return d.throw;
+      })
+      .call(wrap, 90)
+      .style("text-anchor", "end");
+  svg3.selectAll("bar3")
+      .data(dataset3)
+      .enter()
+      .append("rect")
+      .attr("class", "bar3")
+      .attr("x", function(d) {
+        if (d.division=="mens") {
+          return w_labels3;
+        }
+        else if (d.division == "mixed") {
+          return w_labels3 + w_bar3 + w_spacing3;
+        }
+        else {
+          return w_labels3 + w_bar3*2 + w_spacing3*2;
+        }
+      })
+      .attr("y", function(d,i) {
+        return 45+yScale3(d.net-d.rate);
+      })
+      .attr("width", w_bar3)
+      .attr("height", function(d) {
+        return yScale3(d.rate)
+      })
+      .style("fill", function(d) {
+        if (d.throw=="down" | d.throw=="Short/mid down") {
+          return green;
+        }
+        else if (d.throw=="huck" | d.throw=="Huck") {
+          return orange;
+        }
+        else if (d.throw=="over" | d.throw=="Upside-down") {
+          return coral;
+        }
+        else if (d.throw=="callahan" | d.throw=="Callahan") {
+          return pink;
+        }
+        else { return blue; }
+      })
+  svg3.selectAll("data_labels3")
+     .data(dataset3)
+     .enter()
+     .append("text")
+     .attr("class", "data_labels")
+     .attr("x", function(d) {
+       if (d.division=="mens") {
+         return w_labels3 + w_bar3/2;
        }
-       else { return 48+yScale3(d.net-d.rate/2); }
-     }
-     else if (d.throw=="Callahan" | d.throw=="callahan") {
-       return 55+yScale3(d.net-d.rate/2);
-     }
-   })
-   .text(function(d) {
-     if (d.rate<0.01) {
-       return "<1%";
-     }
-     else {return d3.format(".0%")(d.rate);}
-   })
-   .style("text-anchor", "middle");
+       else if (d.division == "mixed") {
+         return w_labels3 + w_bar3 + w_spacing3 + w_bar3/2;
+       }
+       else {
+         return w_labels3 + w_bar3*2 + w_spacing3*2 + w_bar3/2;
+       }
+     })
+     .attr("y", function(d,i) {
+       if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
+        return 50+yScale3(d.net-d.rate/2);
+       }
+       else if (d.throw=="Upside-down" | d.throw=="over") {
+         return 45+yScale3(d.net-d.rate/2);
+       }
+       else if (d.throw=="Swing" | d.throw=="swing") {
+         if (d.division=="womens") {
+           return 52+yScale3(d.net-d.rate/2);
+         }
+         else { return 48+yScale3(d.net-d.rate/2); }
+       }
+       else if (d.throw=="Callahan" | d.throw=="callahan") {
+         return 55+yScale3(d.net-d.rate/2);
+       }
+     })
+     .text(function(d) {
+       if (d.rate<0.01) {
+         return "<1%";
+       }
+       else {return d3.format(".0%")(d.rate);}
+     })
+     .style("text-anchor", "middle");
+}; // end chart 3 setup
+
+function chart3_resize() {
+  w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
+  w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
+  if (w3 >= 300) {
+    w_spacing3 = 30;
+  }
+  else { w_spacing3 = 10; }
+  svg3.selectAll(".division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return w_labels3 + w_bar3/2;
+        }
+        else if (d=="mixed") {
+          return w_labels3 + w_bar3*1.5 + w_spacing3
+        }
+        else { return w_labels3 + w_bar3*2.5 + w_spacing3*2; }
+      })
+      .text(function(d) {
+        if (w3 >= 250) {
+          if (d=="mens") {
+            return "MEN'S"
+          }
+          else if (d=="mixed") {
+            return "MIXED"
+          }
+          else { return "WOMEN'S"; }
+        }
+        else {
+          if (d=="mens") {
+            return "M"
+          }
+          else if (d=="mixed") {
+            return "X"
+          }
+          else { return "W"; }
+        }
+      });
+  svg3.selectAll(".bar3")
+      .attr("x", function(d) {
+        if (d.division=="mens") {
+          return w_labels3;
+        }
+        else if (d.division == "mixed") {
+          return w_labels3 + w_bar3 + w_spacing3;
+        }
+        else {
+          return w_labels3 + w_bar3*2 + w_spacing3*2;
+        }
+      })
+      .attr("width", w_bar3);
+  svg3.selectAll(".data_labels")
+       .attr("x", function(d) {
+         if (d.division=="mens") {
+           return w_labels3 + w_bar3/2;
+         }
+         else if (d.division == "mixed") {
+           return w_labels3 + w_bar3 + w_spacing3 + w_bar3/2;
+         }
+         else {
+           return w_labels3 + w_bar3*2 + w_spacing3*2 + w_bar3/2;
+         }
+       });
+}; // end chart 3 resize
 
 /////////////////////////////////////////////////////////////////////////////
 var svg4 = d3.select("#svg-turnovers");
@@ -432,135 +573,143 @@ var h_spacing4 = 10;
 var h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
 var w_pieSpace4 = w4-w_division4-w_labels4-20;
 var outerRadius4 = h_pieSpace4/2;
-svg4.selectAll("division_labels4")
-    .data(dataset_divisions)
-    .enter()
-    .append("text")
-    .attr("x", 5)
-    .attr("y", function(d,i) {
-      return h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+10;
-    })
-    .text(function(d) {
-      if (d=="mens") {
-        return "MEN'S"
-      }
-      else if (d=="mixed") {
-        return "MIXED"
-      }
-      else { return "WOMEN'S"; }
-    })
-    .attr("class", "division_labels");
-var pie4 = d3.pie().sort(null);
-var arc4 = d3.arc()
-             .innerRadius(0)
-             .outerRadius(outerRadius4);
-var mensArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([49,51]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (top4+outerRadius4+10) + ")");
-mensArcs4.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc4);
-mensArcs4.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc4.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc4.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         });
-var mixedArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([53,47]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4+top4+outerRadius4+h_pieSpace4+10) + ")");
-mixedArcs4.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc4);
-mixedArcs4.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc4.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc4.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         });
-var womensArcs4 = svg4.selectAll("g.arc4")
-                    .data(pie4([59,41]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4*2+top4+outerRadius4+h_pieSpace4*2+10) + ")");
-womensArcs4.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc4);
-womensArcs4.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc4.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc4.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         });
-svg4.selectAll("avg_label4")
-    .data(dataset4)
-    .enter()
-    .append("text")
-    .attr("class", "data_labels")
-    .attr("x", w_division4+w_pieSpace4+20)
-    .attr("y", function(d,i) {
-      return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i-20;
-    })
-    .text(function(d) {
-      if (d.division=="mens") {
-        return "Average per point: " + d3.format(.00)(d.avg);
-      }
-      else { return "Average: " + d3.format(.00)(d.avg); }
-    })
-    .call(wrap, w_labels4)
-    .style("text-anchor", "middle");
-svg4.selectAll("max_label4")
-    .data(dataset4)
-    .enter()
-    .append("text")
-    .attr("class", "data_labels")
-    .attr("x", w_division4+w_pieSpace4+20)
-    .attr("y", function(d,i) {
-      return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+20;
-    })
-    .text(function(d) {
-      if (d.division=="mens") {
-        return "Maximum per point: " + d3.format(.0)(d.max);
-      }
-      else { return "Maximum: " + d3.format(.0)(d.max); }
-    })
-    .call(wrap, w_labels4)
-    .style("text-anchor", "middle");
-
+function chart4_setup() {
+  svg4.selectAll("division_labels4")
+      .data(dataset_divisions)
+      .enter()
+      .append("text")
+      .attr("x", 5)
+      .attr("y", function(d,i) {
+        return h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+10;
+      })
+      .text(function(d) {
+        if (d=="mens") {
+          return "MEN'S"
+        }
+        else if (d=="mixed") {
+          return "MIXED"
+        }
+        else { return "WOMEN'S"; }
+      })
+      .attr("class", "division_labels");
+  var pie4 = d3.pie().sort(null);
+  var arc4 = d3.arc()
+               .innerRadius(0)
+               .outerRadius(outerRadius4);
+  var mensArcs4 = svg4.selectAll("g.arc4")
+                      .data(pie4([49,51]))
+                      .enter()
+                      .append("g")
+                      .attr("class", "arc")
+                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (top4+outerRadius4+10) + ")");
+  mensArcs4.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc4);
+  mensArcs4.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc4.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc4.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           });
+  var mixedArcs4 = svg4.selectAll("g.arc4")
+                      .data(pie4([53,47]))
+                      .enter()
+                      .append("g")
+                      .attr("class", "arc")
+                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4+top4+outerRadius4+h_pieSpace4+10) + ")");
+  mixedArcs4.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc4);
+  mixedArcs4.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc4.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc4.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           });
+  var womensArcs4 = svg4.selectAll("g.arc4")
+                      .data(pie4([59,41]))
+                      .enter()
+                      .append("g")
+                      .attr("class", "arc")
+                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4*2+top4+outerRadius4+h_pieSpace4*2+10) + ")");
+  womensArcs4.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc4);
+  womensArcs4.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc4.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc4.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           });
+  svg4.selectAll("avg_label4")
+      .data(dataset4)
+      .enter()
+      .append("text")
+      .attr("class", "data_labels")
+      .attr("x", w_division4+w_pieSpace4+20)
+      .attr("y", function(d,i) {
+        return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i-20;
+      })
+      .text(function(d) {
+        if (d.division=="mens") {
+          return "Average per point: " + d3.format(.00)(d.avg);
+        }
+        else { return "Average: " + d3.format(.00)(d.avg); }
+      })
+      .call(wrap, w_labels4)
+      .style("text-anchor", "middle");
+  svg4.selectAll("max_label4")
+      .data(dataset4)
+      .enter()
+      .append("text")
+      .attr("class", "data_labels")
+      .attr("x", w_division4+w_pieSpace4+20)
+      .attr("y", function(d,i) {
+        return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+20;
+      })
+      .text(function(d) {
+        if (d.division=="mens") {
+          return "Maximum per point: " + d3.format(.0)(d.max);
+        }
+        else { return "Maximum: " + d3.format(.0)(d.max); }
+      })
+      .call(wrap, w_labels4)
+      .style("text-anchor", "middle");
+}; // end chart 4 setup
+function chart4_resize() {
+  w4 = document.getElementById("svg-turnovers").getBoundingClientRect().width;
+  h4 = document.getElementById("svg-turnovers").getBoundingClientRect().height;
+  h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
+  w_pieSpace4 = w4-w_division4-w_labels4-20;
+  outerRadius4 = h_pieSpace4/2;
+}; // end chart 4 resize
 /////////////////////////////////////////////////////////////////////////////
 var svg5 = d3.select("#svg-fieldpos");
 var w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
@@ -574,276 +723,366 @@ var outerRadius5 = (h_field5-40)/3/2;
 var dataset5 = [{division:"mens", full:59, btwn:33, endzone:8},
                 {division:"mixed", full:58, btwn:36, endzone:6},
                 {division:"womens", full:45, btwn:51, endzone:4}];
-// labels
-svg5.append("text")
-    .attr("x", w_label5+w_field5/5)
-    .attr("y", top5)
-    .text("Full field")
-    .attr("class", "axis_labels");
-svg5.append("text")
-    .attr("x", w_label5+w_field5/2)
-    .attr("y", top5)
-    .text("Between full field and end zone")
-    .attr("class", "axis_labels");
-svg5.append("text")
-    .attr("x", w_label5+w_field5*(4/5))
-    .attr("y", top5)
-    .text("End zone")
-    .attr("class", "axis_labels");
-svg5.append("line")
-    .attr("x1", w_label5+w_field5/5)
-    .attr("x2", w_label5+w_field5/5)
-    .attr("y1", top5+15)
-    .attr("y2", top5+15+h_field5)
-    .style("stroke", "black");
-svg5.append("line")
-    .attr("x1", w_label5+w_field5/2)
-    .attr("x2", w_label5+w_field5/2)
-    .attr("y1", top5+15)
-    .attr("y2", top5+15+h_field5)
-    .style("stroke", "black");
-svg5.append("line")
-    .attr("x1", w_label5+w_field5*(4/5))
-    .attr("x2", w_label5+w_field5*(4/5))
-    .attr("y1", top5+15)
-    .attr("y2", top5+15+h_field5)
-    .style("stroke", "black");
-svg5.append("rect")
-    .attr("x", w_label5)
-    .attr("y", top5+15)
-    .attr("height", h_field5)
-    .attr("width", w_field5)
-    .style("fill", "none")
-    .style("stroke", "black")
-svg5.selectAll("division_labels5")
-    .data(dataset_divisions)
-    .enter()
-    .append("text")
-    .attr("x", 5)
-    .attr("y", function(d,i) {
-      return top5+15+10*(i+1)+outerRadius5*(2*i+1);
-    })
-    .text(function(d) {
-      if (d=="mens") {
-        return "MEN'S"
-      }
-      else if (d=="mixed") {
-        return "MIXED"
-      }
-      else { return "WOMEN'S"; }
-    })
-    .attr("class", "division_labels");
-var pie5 = d3.pie().sort(null);
-var arc5 = d3.arc()
-             .innerRadius(0)
-             .outerRadius(outerRadius5);
-var arc5_full_mens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[0].full,(100-dataset5[0].full)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5+25) + ")");
-arc5_full_mens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_full_mens.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-var arc5_full_mixed = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[1].full,(100-dataset5[1].full)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*3+35) + ")");
-arc5_full_mixed.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_full_mixed.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-var arc5_full_womens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[2].full,(100-dataset5[2].full)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*5+45) + ")");
-arc5_full_womens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_full_womens.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-// btwn full and endzone
-var arc5_btwn_mens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[0].btwn,(100-dataset5[0].btwn)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5+25) + ")");
-arc5_btwn_mens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_btwn_mens.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-var arc5_btwn_mixed = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[1].btwn,(100-dataset5[1].btwn)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*3+35) + ")");
-arc5_btwn_mixed.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_btwn_mixed.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-var arc5_btwn_womens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[2].btwn,(100-dataset5[2].btwn)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*5+45) + ")");
-arc5_btwn_womens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-arc5_btwn_womens.append("text")
-         .attr("text-anchor", "middle")
-         .attr("class", "data_labels")
-         .attr("x", function(d) {
-           return arc5.centroid(d)[0]
-         })
-         .attr("y", function(d) {
-           return arc5.centroid(d)[1]
-         })
-         .text(function(d,i) {
-           if (i==0) { return d.value + "%"; }
-         })
-         .style("font-size", "12");
-// end zone
-var arc5_endzone_mens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[0].endzone,(100-dataset5[0].endzone)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5+25) + ")");
-arc5_endzone_mens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-var arc5_endzone_mixed = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[1].endzone,(100-dataset5[1].endzone)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*3+35) + ")");
-arc5_endzone_mixed.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
-var arc5_endzone_womens = svg5.selectAll("g.arc5")
-                    .data(pie5([dataset5[2].endzone,(100-dataset5[2].endzone)]))
-                    .enter()
-                    .append("g")
-                    .attr("class", "arc")
-                    .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*5+45) + ")");
-arc5_endzone_womens.append("path")
-         .style("fill", function(d,i) {
-           if (i==0) { return coral; }
-           else { return light_gray; }
-         })
-         .attr("d", arc5);
+var arc5_full_mens, arc5_full_womens, arc5_full_mixed, arc5_btwn_mens, arc5_btwn_womens, arc5_btwn_mixed, arc5_endzone_mens, arc5_endzone_womens, arc5_endzone_mixed;
+function chart5_setup() {
+  // labels
+  svg5.append("text")
+      .attr("x", w_label5+w_field5/5)
+      .attr("y", top5)
+      .text("Full field")
+      .attr("class", "axis_labels")
+      .attr("id", "full_axis_label5");
+  svg5.append("text")
+      .attr("x", w_label5+w_field5/2)
+      .attr("y", function() {
+        if (w5>=523) { return top5; }
+        else { return top5-5; }
+      })
+      .text("Between full field and end zone")
+      .attr("class", "axis_labels")
+      .attr("id", "btwn_axis_label5")
+      .call(wrap, w_field5*2/6);
+  svg5.append("text")
+      .attr("x", w_label5+w_field5*(4/5))
+      .attr("y", top5)
+      .text("End zone")
+      .attr("class", "axis_labels")
+      .attr("id", "end_axis_label5");
+  svg5.append("line")
+      .attr("x1", w_label5+w_field5/5)
+      .attr("x2", w_label5+w_field5/5)
+      .attr("y1", top5+15)
+      .attr("y2", top5+15+h_field5)
+      .style("stroke", "black")
+      .attr("id", "full_line5");
+  svg5.append("line")
+      .attr("x1", w_label5+w_field5/2)
+      .attr("x2", w_label5+w_field5/2)
+      .attr("y1", top5+15)
+      .attr("y2", top5+15+h_field5)
+      .style("stroke", "black")
+      .attr("id", "btwn_line5");
+  svg5.append("line")
+      .attr("x1", w_label5+w_field5*(4/5))
+      .attr("x2", w_label5+w_field5*(4/5))
+      .attr("y1", top5+15)
+      .attr("y2", top5+15+h_field5)
+      .style("stroke", "black")
+      .attr("id", "end_line5");
+  svg5.append("rect")
+      .attr("x", w_label5)
+      .attr("y", top5+15)
+      .attr("height", h_field5)
+      .attr("width", w_field5)
+      .style("fill", "none")
+      .style("stroke", "black")
+      .attr("id", "fieldRect5")
+  svg5.selectAll("division_labels5")
+      .data(dataset_divisions)
+      .enter()
+      .append("text")
+      .attr("x", 5)
+      .attr("y", function(d,i) {
+        return top5+15+10*(i+1)+outerRadius5*(2*i+1);
+      })
+      .text(function(d) {
+        if (d=="mens") {
+          return "MEN'S"
+        }
+        else if (d=="mixed") {
+          return "MIXED"
+        }
+        else { return "WOMEN'S"; }
+      })
+      .attr("class", "division_labels");
+  var pie5 = d3.pie().sort(null);
+  var arc5 = d3.arc()
+               .innerRadius(0)
+               .outerRadius(outerRadius5);
+  arc5_full_mens = svg5.selectAll("g.arc5")
+                        .data(pie5([dataset5[0].full,(100-dataset5[0].full)]))
+                        .enter()
+                        .append("g")
+                        .attr("class", "arc")
+                        .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_full_mens.append("path")
+                 .style("fill", function(d,i) {
+                   if (i==0) { return coral; }
+                   else { return light_gray; }
+                 })
+                 .attr("d", arc5);
+  arc5_full_mens.append("text")
+                 .attr("text-anchor", "middle")
+                 .attr("class", "data_labels")
+                 .attr("x", function(d) {
+                   return arc5.centroid(d)[0]
+                 })
+                 .attr("y", function(d) {
+                   return arc5.centroid(d)[1]
+                 })
+                 .text(function(d,i) {
+                   if (i==0) { return d.value + "%"; }
+                 })
+                 .style("font-size", "12");
+  arc5_full_mixed = svg5.selectAll("g.arc5")
+                        .data(pie5([dataset5[1].full,(100-dataset5[1].full)]))
+                        .enter()
+                        .append("g")
+                        .attr("class", "arc")
+                        .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_full_mixed.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_full_mixed.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc5.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc5.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           })
+           .style("font-size", "12");
+  arc5_full_womens = svg5.selectAll("g.arc5")
+                          .data(pie5([dataset5[2].full,(100-dataset5[2].full)]))
+                          .enter()
+                          .append("g")
+                          .attr("class", "arc")
+                          .attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*5+45) + ")");
+  arc5_full_womens.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_full_womens.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc5.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc5.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           })
+           .style("font-size", "12");
+  // btwn full and endzone
+  arc5_btwn_mens = svg5.selectAll("g.arc5")
+                        .data(pie5([dataset5[0].btwn,(100-dataset5[0].btwn)]))
+                        .enter()
+                        .append("g")
+                        .attr("class", "arc")
+                        .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_btwn_mens.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_btwn_mens.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc5.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc5.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           })
+           .style("font-size", "12");
+  arc5_btwn_mixed = svg5.selectAll("g.arc5")
+                        .data(pie5([dataset5[1].btwn,(100-dataset5[1].btwn)]))
+                        .enter()
+                        .append("g")
+                        .attr("class", "arc")
+                        .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_btwn_mixed.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_btwn_mixed.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc5.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc5.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           })
+           .style("font-size", "12");
+  arc5_btwn_womens = svg5.selectAll("g.arc5")
+                          .data(pie5([dataset5[2].btwn,(100-dataset5[2].btwn)]))
+                          .enter()
+                          .append("g")
+                          .attr("class", "arc")
+                          .attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*5+45) + ")");
+  arc5_btwn_womens.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_btwn_womens.append("text")
+           .attr("text-anchor", "middle")
+           .attr("class", "data_labels")
+           .attr("x", function(d) {
+             return arc5.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc5.centroid(d)[1]
+           })
+           .text(function(d,i) {
+             if (i==0) { return d.value + "%"; }
+           })
+           .style("font-size", "12");
+  // end zone
+  arc5_endzone_mens = svg5.selectAll("g.arc5")
+                          .data(pie5([dataset5[0].endzone,(100-dataset5[0].endzone)]))
+                          .enter()
+                          .append("g")
+                          .attr("class", "arc")
+                          .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_endzone_mens.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_endzone_mixed = svg5.selectAll("g.arc5")
+                            .data(pie5([dataset5[1].endzone,(100-dataset5[1].endzone)]))
+                            .enter()
+                            .append("g")
+                            .attr("class", "arc")
+                            .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_endzone_mixed.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
+  arc5_endzone_womens = svg5.selectAll("g.arc5")
+                            .data(pie5([dataset5[2].endzone,(100-dataset5[2].endzone)]))
+                            .enter()
+                            .append("g")
+                            .attr("class", "arc")
+                            .attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*5+45) + ")");
+  arc5_endzone_womens.append("path")
+           .style("fill", function(d,i) {
+             if (i==0) { return coral; }
+             else { return light_gray; }
+           })
+           .attr("d", arc5);
 
-svg5.append("text")
-    .attr("text-anchor", "middle")
-    .attr("class", "data_labels")
-    .attr("x", w_label5+w_field5*4/5+10)
-    .attr("y", top5+outerRadius5+15)
-    .text("9%")
-    .style("font-size", "12");
-svg5.append("text")
-    .attr("text-anchor", "middle")
-    .attr("class", "data_labels")
-    .attr("x", w_label5+w_field5*4/5+10)
-    .attr("y", top5+outerRadius5*3+25)
-    .text("6%")
-    .style("font-size", "12");
-svg5.append("text")
-    .attr("text-anchor", "middle")
-    .attr("class", "data_labels")
-    .attr("x", w_label5+w_field5*4/5+10)
-    .attr("y", top5+outerRadius5*5+35)
-    .text("5%")
-    .style("font-size", "12");
+  svg5.append("text")
+      .attr("text-anchor", "middle")
+      .attr("class", "data_labels")
+      .attr("id", "mens_end_text")
+      .attr("x", w_label5+w_field5*4/5+10)
+      .attr("y", top5+outerRadius5+15)
+      .text("9%")
+      .style("font-size", "12");
+  svg5.append("text")
+      .attr("text-anchor", "middle")
+      .attr("class", "data_labels")
+      .attr("id", "mixed_end_text")
+      .attr("x", w_label5+w_field5*4/5+10)
+      .attr("y", top5+outerRadius5*3+25)
+      .text("6%")
+      .style("font-size", "12");
+  svg5.append("text")
+      .attr("text-anchor", "middle")
+      .attr("class", "data_labels")
+      .attr("id", "womens_end_text")
+      .attr("x", w_label5+w_field5*4/5+10)
+      .attr("y", top5+outerRadius5*5+35)
+      .text("5%")
+      .style("font-size", "12");
+}; // end chart 5 setup
+function chart5_resize() {
+  w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
+  w_field5 = (w5-w_label5-10);
+
+  // labels
+  svg5.select("#full_axis_label5")
+      .attr("x", w_label5+w_field5/5)
+      .attr("y", top5)
+      .text("Full field")
+      .call(wrap, outerRadius5*2);
+  svg5.select("#btwn_axis_label5")
+      .attr("x", w_label5+w_field5/2)
+      .attr("y", function() {
+        if (w5>=523) { return top5; }
+        else { return top5-5; }
+      })
+      .text("Between full field and end zone")
+      .call(wrap, w_field5*2/6);
+  svg5.select("#end_axis_label5")
+      .attr("x", w_label5+w_field5*(4/5))
+      .attr("y", top5)
+      .text("End zone")
+      .call(wrap, outerRadius5*2);
+  svg5.select("#full_line5")
+      .attr("x1", w_label5+w_field5/5)
+      .attr("x2", w_label5+w_field5/5);
+  svg5.select("#btwn_line5")
+      .attr("x1", w_label5+w_field5/2)
+      .attr("x2", w_label5+w_field5/2);
+  svg5.select("#end_line5")
+      .attr("x1", w_label5+w_field5*(4/5))
+      .attr("x2", w_label5+w_field5*(4/5));
+  svg5.select("#fieldRect5")
+      .attr("x", w_label5)
+      .attr("width", w_field5);
+  arc5_full_mens.attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_full_mixed.attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_full_womens.attr("transform", "translate(" + (w_label5+w_field5/5) + ", " + (top5+outerRadius5*5+45) + ")");
+  arc5_btwn_mens.attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_btwn_mixed.attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_btwn_womens.attr("transform", "translate(" + (w_label5+w_field5/2) + ", " + (top5+outerRadius5*5+45) + ")");
+  arc5_endzone_mens.attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5+25) + ")");
+  arc5_endzone_mixed.attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*3+35) + ")");
+  arc5_endzone_womens.attr("transform", "translate(" + (w_label5+w_field5*4/5) + ", " + (top5+outerRadius5*5+45) + ")");
+
+  svg5.select("#mens_end_text")
+      .attr("x", w_label5+w_field5*4/5+10);
+  svg5.select("#mixed_end_text")
+      .attr("x", w_label5+w_field5*4/5+10);
+  svg5.select("#womens_end_text")
+      .attr("x", w_label5+w_field5*4/5+10);
+
+}; // end chart 5 resize
+////////////////////////////////////////////////////////////////////////////////
+function init() {
+  // set up all charts
+  chart1_setup();
+  chart2_setup();
+  chart3_setup();
+  chart4_setup();
+  chart5_setup();
+
+  // setup event listener to handle window resize
+  window.addEventListener('resize', function() {
+    chart1_resize();
+    chart2_resize();
+    chart3_resize();
+    chart4_resize();
+    chart5_resize();
+  });
+}; // end resize function
+
+init();
