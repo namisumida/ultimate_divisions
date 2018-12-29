@@ -210,7 +210,7 @@ function chart1_resize() {
   arc1 = d3.arc()
            .innerRadius(0)
            .outerRadius(outerRadius1);
-  mensArcs1.attr("transform", "translate(" + (w_spacing1+w_pieSpace1/2) + ", " + (top1+20 + w_pie1/2) + ")");
+  mensArcs1.attr("transform", "translate(" + (w_spacing1+w_pieSpace1/2) + ", " + (top1+30 + w_pie1/2) + ")");
   mensArcs1.select("path")
            .attr("d", arc1);
   mensArcs1.select("text")
@@ -229,7 +229,7 @@ function chart1_resize() {
              }
              else { return arc1.centroid(d)[1]; }
            });
-  mixedArcs1.attr("transform", "translate(" + (w_spacing1*2+w_pieSpace1*1.5) + ", " + (top1+20 + w_pie1/2) + ")");
+  mixedArcs1.attr("transform", "translate(" + (w_spacing1*2+w_pieSpace1*1.5) + ", " + (top1+30 + w_pie1/2) + ")");
   mixedArcs1.select("path")
             .attr("d", arc1);
   mixedArcs1.select("text")
@@ -248,7 +248,7 @@ function chart1_resize() {
               }
               else { return arc1.centroid(d)[1]; }
             });
-  womensArcs1.attr("transform", "translate(" + (w_spacing1*3+w_pieSpace1*2.5) + ", " + (top1+20 + w_pie1/2) + ")");
+  womensArcs1.attr("transform", "translate(" + (w_spacing1*3+w_pieSpace1*2.5) + ", " + (top1+30 + w_pie1/2) + ")");
   womensArcs1.select("path")
              .attr("d", arc1);
   womensArcs1.select("text")
@@ -451,7 +451,15 @@ var dataset3 = [{division:"mens",throw:"Short/mid down", rate:.58, net:.58}, {di
                 {division:"mixed", throw:"down", rate:.57, net:.57}, {division:"mixed",throw:"huck", rate:.36, net:.93},{division:"mixed",throw:"over", rate:.04, net:.97},{division:"mixed",throw:"swing", rate:.03, net:.996},{division:"mixed",throw:"callahan", rate:.004, net:1},
                 {division:"womens", throw:"down", rate:.72, net:.72}, {division:"womens",throw:"huck", rate:.25, net:.97},{division:"womens",throw:"over", rate:.004, net:.98},{division:"womens",throw:"swing", rate:.02, net:1}];
 var w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
-var h3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().height;
+var h_section3 = document.getElementById("svgSection-scoredthrows").getBoundingClientRect().height;
+if (w3>=238) {
+  var h3 = h_section3*.87;
+}
+else if (w3>=201) {
+  var h3 = h_section3*.83;
+} else {
+  var h3 = h_section3*.76;
+};
 var bottom3 = 5;
 var w_labels3 = 100;
 if (w3 >= 300) {
@@ -610,10 +618,28 @@ function chart3_setup() {
 function chart3_resize() {
   w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
   w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
+  h_bar3 = h3 - 50 - bottom3;
+  yScale3 = d3.scaleLinear()
+              .domain([0,1])
+              .range([3,h_bar3]);
+
+  // spacing
   if (w3 >= 300) {
     w_spacing3 = 30;
   }
   else { w_spacing3 = 10; }
+
+  // height of svg
+  h_section3 = document.getElementById("svgSection-scoredthrows").getBoundingClientRect().height;
+  if (w3>=238) {
+    h3 = h_section3*.87;
+  }
+  else if (w3>=201) {
+    h3 = h_section3*.83;
+  } else {
+    h3 = h_section3*.76;
+  };
+
   svg3.selectAll(".division_labels")
       .attr("x", function(d) {
         if (d=="mens") {
@@ -644,6 +670,26 @@ function chart3_resize() {
           else { return "W"; }
         }
       });
+  svg3.selectAll(".axis_labels")
+      .attr("x", w_labels3-10)
+      .attr("y", function(d,i) {
+        if (d.throw=="Huck" | d.throw=="Short/mid down") {
+          return 50+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Upside-down") {
+          return 45+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Swing") {
+          return 48+yScale3(d.net-d.rate/2);
+        }
+        else if (d.throw=="Callahan") {
+          return 55+yScale3(d.net-d.rate/2);
+        }
+      })
+      .text(function(d) {
+        return d.throw;
+      })
+      .call(wrap, 90);
   svg3.selectAll(".bar3")
       .attr("x", function(d) {
         if (d.division=="mens") {
@@ -656,6 +702,12 @@ function chart3_resize() {
           return w_labels3 + w_bar3*2 + w_spacing3*2;
         }
       })
+      .attr("y", function(d,i) {
+        return 45+yScale3(d.net-d.rate);
+      })
+      .attr("height", function(d) {
+        return yScale3(d.rate)
+      })
       .attr("width", w_bar3);
   svg3.selectAll(".data_labels")
        .attr("x", function(d) {
@@ -667,6 +719,23 @@ function chart3_resize() {
          }
          else {
            return w_labels3 + w_bar3*2 + w_spacing3*2 + w_bar3/2;
+         }
+       })
+       .attr("y", function(d,i) {
+         if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
+          return 50+yScale3(d.net-d.rate/2);
+         }
+         else if (d.throw=="Upside-down" | d.throw=="over") {
+           return 45+yScale3(d.net-d.rate/2);
+         }
+         else if (d.throw=="Swing" | d.throw=="swing") {
+           if (d.division=="womens") {
+             return 52+yScale3(d.net-d.rate/2);
+           }
+           else { return 48+yScale3(d.net-d.rate/2); }
+         }
+         else if (d.throw=="Callahan" | d.throw=="callahan") {
+           return 55+yScale3(d.net-d.rate/2);
          }
        });
 }; // end chart 3 resize

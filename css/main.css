@@ -23,7 +23,7 @@
   src: url("fonts/Stratum2-Regular.otf");
 }
 body,html {
-  min-width: 370px;
+  min-width: 300px;
   line-height: 1.7;
   padding: 0.5em;
   margin: 0 auto;
