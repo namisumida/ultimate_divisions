@@ -22,9 +22,19 @@
   font-size: 12px;
   font-family: radnika-regular;
 }
-
 .tooltips {
   font-size: 12px;
   font-weight: 600;
   fill: gray;
+}
+@media screen and (max-width: 600px) {
+  .chart-label {
+    font-size: 12px;
+  }
+  #checkboxes {
+    font-size: 10px;
+  }
+  #input{
+    font-size: 10px;
+  }
 }
