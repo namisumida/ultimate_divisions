@@ -1,3 +1,4 @@
+var bodyWidth;
 // SVG 1: Throws attempted
 var svg1 = d3.select("#svg-throwsattempted");
 var dataset1_throws = ["Short/mid down", "Swing", "Dump", "Huck", "Upside-down"];
@@ -447,11 +448,12 @@ function chart2_resize() {
 //////////////////////////////////////////////////////////////////////////////
 // SVG 3: Scored throws
 var svg3 = d3.select("#svg-scoredthrows");
-var dataset3 = [{division:"mens",throw:"Short/mid down", rate:.58, net:.58}, {division:"mens", throw:"Huck", rate:.34, net:.92}, {division:"mens", throw:"Upside-down", rate:.04, net:.96}, {division:"mens",throw:"Swing", rate:.03, net:.99}, {division:"mens",throw:"Callahan", rate:.005, net:1},
+var dataset3 = [{division:"mens",throw:"Short/ mid down", rate:.58, net:.58}, {division:"mens", throw:"Huck", rate:.34, net:.92}, {division:"mens", throw:"Upside- down", rate:.04, net:.96}, {division:"mens",throw:"Swing", rate:.03, net:.99}, {division:"mens",throw:"Callahan", rate:.005, net:1},
                 {division:"mixed", throw:"down", rate:.57, net:.57}, {division:"mixed",throw:"huck", rate:.36, net:.93},{division:"mixed",throw:"over", rate:.04, net:.97},{division:"mixed",throw:"swing", rate:.03, net:.996},{division:"mixed",throw:"callahan", rate:.004, net:1},
                 {division:"womens", throw:"down", rate:.72, net:.72}, {division:"womens",throw:"huck", rate:.25, net:.97},{division:"womens",throw:"over", rate:.004, net:.98},{division:"womens",throw:"swing", rate:.02, net:1}];
 var w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
 var h_section3 = document.getElementById("svgSection-scoredthrows").getBoundingClientRect().height;
+
 if (w3>=238) {
   var h3 = h_section3*.87;
 }
@@ -461,7 +463,12 @@ else if (w3>=201) {
   var h3 = h_section3*.76;
 };
 var bottom3 = 5;
-var w_labels3 = 100;
+
+if (bodyWidth>=600) {
+  var w_labels3 = 100;
+}
+else { var w_labels3=60; }
+
 if (w3 >= 300) {
   var w_spacing3 = 30;
 }
@@ -517,23 +524,39 @@ function chart3_setup() {
       .attr("class", "axis_labels")
       .attr("x", w_labels3-10)
       .attr("y", function(d,i) {
-        if (d.throw=="Huck" | d.throw=="Short/mid down") {
-          return 50+yScale3(d.net-d.rate/2);
+        if (bodyWidth>=600) {
+          if (d.throw=="Huck" | d.throw=="Short/ mid down") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Upside- down") {
+            return 45+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Swing") {
+            return 48+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Callahan") {
+            return 55+yScale3(d.net-d.rate/2);
+          }
         }
-        else if (d.throw=="Upside-down") {
-          return 45+yScale3(d.net-d.rate/2);
-        }
-        else if (d.throw=="Swing") {
-          return 48+yScale3(d.net-d.rate/2);
-        }
-        else if (d.throw=="Callahan") {
-          return 55+yScale3(d.net-d.rate/2);
+        else {
+          if (d.throw=="Huck" | d.throw=="Short/ mid down") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Upside- down") {
+            return 35+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Swing") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Callahan") {
+            return 55+yScale3(d.net-d.rate/2);
+          }
         }
       })
       .text(function(d) {
         return d.throw;
       })
-      .call(wrap, 90)
+      .call(wrap, w_labels3-10)
       .style("text-anchor", "end");
   svg3.selectAll("bar3")
       .data(dataset3)
@@ -559,13 +582,13 @@ function chart3_setup() {
         return yScale3(d.rate)
       })
       .style("fill", function(d) {
-        if (d.throw=="down" | d.throw=="Short/mid down") {
+        if (d.throw=="down" | d.throw=="Short/ mid down") {
           return green;
         }
         else if (d.throw=="huck" | d.throw=="Huck") {
           return orange;
         }
-        else if (d.throw=="over" | d.throw=="Upside-down") {
+        else if (d.throw=="over" | d.throw=="Upside- down") {
           return coral;
         }
         else if (d.throw=="callahan" | d.throw=="Callahan") {
@@ -590,10 +613,10 @@ function chart3_setup() {
        }
      })
      .attr("y", function(d,i) {
-       if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
+       if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/ mid down" | d.throw=="Huck") {
         return 50+yScale3(d.net-d.rate/2);
        }
-       else if (d.throw=="Upside-down" | d.throw=="over") {
+       else if (d.throw=="Upside- down" | d.throw=="over") {
          return 45+yScale3(d.net-d.rate/2);
        }
        else if (d.throw=="Swing" | d.throw=="swing") {
@@ -617,18 +640,19 @@ function chart3_setup() {
 
 function chart3_resize() {
   w3 = document.getElementById("svg-scoredthrows").getBoundingClientRect().width;
-  w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
-  h_bar3 = h3 - 50 - bottom3;
-  yScale3 = d3.scaleLinear()
-              .domain([0,1])
-              .range([3,h_bar3]);
+  bodyWidth = document.documentElement.clientWidth;
+  // Width of labels
+  if (bodyWidth>=600) {
+    w_labels3 = 100;
+  }
+  else { w_labels3=60; }
 
   // spacing
   if (w3 >= 300) {
     w_spacing3 = 30;
   }
   else { w_spacing3 = 10; }
-
+  w_bar3 = (w3-w_labels3-w_spacing3*3)/3;
   // height of svg
   h_section3 = document.getElementById("svgSection-scoredthrows").getBoundingClientRect().height;
   if (w3>=238) {
@@ -639,6 +663,10 @@ function chart3_resize() {
   } else {
     h3 = h_section3*.76;
   };
+  h_bar3 = h3 - 50 - bottom3;
+  yScale3 = d3.scaleLinear()
+              .domain([0,1])
+              .range([3,h_bar3]);
 
   svg3.selectAll(".division_labels")
       .attr("x", function(d) {
@@ -673,23 +701,39 @@ function chart3_resize() {
   svg3.selectAll(".axis_labels")
       .attr("x", w_labels3-10)
       .attr("y", function(d,i) {
-        if (d.throw=="Huck" | d.throw=="Short/mid down") {
-          return 50+yScale3(d.net-d.rate/2);
+        if (bodyWidth>=600) {
+          if (d.throw=="Huck" | d.throw=="Short/ mid down") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Upside- down") {
+            return 45+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Swing") {
+            return 48+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Callahan") {
+            return 55+yScale3(d.net-d.rate/2);
+          }
         }
-        else if (d.throw=="Upside-down") {
-          return 45+yScale3(d.net-d.rate/2);
-        }
-        else if (d.throw=="Swing") {
-          return 48+yScale3(d.net-d.rate/2);
-        }
-        else if (d.throw=="Callahan") {
-          return 55+yScale3(d.net-d.rate/2);
+        else {
+          if (d.throw=="Huck" | d.throw=="Short/ mid down") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Upside- down") {
+            return 35+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Swing") {
+            return 50+yScale3(d.net-d.rate/2);
+          }
+          else if (d.throw=="Callahan") {
+            return 55+yScale3(d.net-d.rate/2);
+          }
         }
       })
       .text(function(d) {
         return d.throw;
       })
-      .call(wrap, 90);
+      .call(wrap, w_labels3-10);
   svg3.selectAll(".bar3")
       .attr("x", function(d) {
         if (d.division=="mens") {
@@ -722,10 +766,10 @@ function chart3_resize() {
          }
        })
        .attr("y", function(d,i) {
-         if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/mid down" | d.throw=="Huck") {
+         if (d.throw=="down" | d.throw=="huck" | d.throw=="Short/ mid down" | d.throw=="Huck") {
           return 50+yScale3(d.net-d.rate/2);
          }
-         else if (d.throw=="Upside-down" | d.throw=="over") {
+         else if (d.throw=="Upside- down" | d.throw=="over") {
            return 45+yScale3(d.net-d.rate/2);
          }
          else if (d.throw=="Swing" | d.throw=="swing") {
@@ -997,7 +1041,7 @@ var w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
 var h5 = document.getElementById("svg-fieldpos").getBoundingClientRect().height;
 var top5 = 35;
 var h_spacing5 = 10;
-if (document.documentElement.clientWidth>=600) {
+if (bodyWidth>=600) {
   var w_label5 = 95;
 }
 else { var w_label5 = 75; }
@@ -1298,10 +1342,11 @@ function chart5_setup() {
       .style("font-size", "12");
 }; // end chart 5 setup
 function chart5_resize() {
+  bodyWidth = document.documentElement.clientWidth;
   w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
   w_field5 = (w5-w_label5-10);
 
-  if (document.documentElement.clientWidth>=600) {
+  if (bodyWidth>=600) {
     w_label5 = 95;
   }
   else { w_label5 = 75; }
