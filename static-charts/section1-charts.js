@@ -6,13 +6,16 @@ var dataset1_mixed = [52, 30, 8, 9, 1];
 var dataset1_womens = [52, 31, 10, 7, 0.2];
 var colors1 = [green, blue, pink, orange, coral];
 var w1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().width;
-var h1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().height;
 var w_spacing1 = 10;
-var left1 = 25;
-var top1 = 30;
+var top1 = 20;
+var h_labels1 = 50;
 var w_pieSpace1 = (w1-w_spacing1*4)/3;
 var w_pie1 = w_pieSpace1*.8;
 var outerRadius1 = w_pie1/2;
+var mensArcs1, womensArcs1, mixedArcs1, pie1, arc1, legend;
+var currentHeight1 = w_pieSpace1+h_labels1+top1; // get current height of graphic
+document.getElementById("svg-throwsattempted").style.height = (currentHeight1) + "px";
+
 function chart1_setup() {
   svg1.selectAll("division_labels1")
       .data(dataset_divisions)
@@ -21,14 +24,14 @@ function chart1_setup() {
       .attr("class", "division_labels")
       .attr("x", function(d) {
         if (d=="mens") {
-          return left1 + w_spacing1 + w_pieSpace1/2;
+          return w_spacing1 + w_pieSpace1/2;
         }
         else if (d=="mixed") {
-          return left1 + w_spacing1*2 + w_pieSpace1*1.5;
+          return w_spacing1*2 + w_pieSpace1*1.5;
         }
-        else { return left1 + w_spacing1*3 + w_pieSpace1*2.5; }
+        else { return w_spacing1*3 + w_pieSpace1*2.5; }
       })
-      .attr("y", 30)
+      .attr("y", top1+10)
       .text(function(d) {
         if (d=="mens") {
           return "MEN'S"
@@ -48,7 +51,7 @@ function chart1_setup() {
                   .enter()
                   .append("g")
                   .attr("class", "arc")
-                  .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1/2) + ", " + (top1+40 + w_pie1/2) + ")");
+                  .attr("transform", "translate(" + (w_spacing1+w_pieSpace1/2) + ", " + (top1+30 + w_pie1/2) + ")");
   mensArcs1.append("path")
            .style("fill", function(d,i) {
              return colors1[i];
@@ -80,7 +83,7 @@ function chart1_setup() {
                     .enter()
                     .append("g")
                     .attr("class", "arc")
-                    .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*1.5) + ", " + (top1+40 + w_pie1/2) + ")");
+                    .attr("transform", "translate(" + (w_spacing1*2+w_pieSpace1*1.5) + ", " + (top1+30 + w_pie1/2) + ")");
   mixedArcs1.append("path")
             .style("fill", function(d,i) {
              return colors1[i];
@@ -112,12 +115,12 @@ function chart1_setup() {
                     .enter()
                     .append("g")
                     .attr("class", "arc")
-                    .attr("transform", "translate(" + (left1+w_spacing1+w_pieSpace1*2.5) + ", " + (top1+40 + w_pie1/2) + ")");
+                    .attr("transform", "translate(" + (w_spacing1*3+w_pieSpace1*2.5) + ", " + (top1+30 + w_pie1/2) + ")");
   womensArcs1.append("path")
-           .style("fill", function(d,i) {
-             return colors1[i];
-           })
-           .attr("d", arc1);
+             .style("fill", function(d,i) {
+               return colors1[i];
+             })
+             .attr("d", arc1);
   womensArcs1.append("text")
              .attr("text-anchor", "middle")
              .attr("class", "data_labels")
@@ -142,42 +145,152 @@ function chart1_setup() {
                }
                else { return "<1%"; }
              });
-  down_label1 = svg1.append("text")
-                     .attr("class", "axis_labels")
-                     .text("Short/mid down")
-                     .attr("x", left1+w_spacing1+w_pieSpace1)
-                     .attr("y", h1-50)
-                     .call(wrap, 50);
-  swing_label1 = svg1.append("text")
-                     .attr("class", "axis_labels")
-                     .text("Swing")
-                     .attr("x", left1+w_pieSpace1/20)
-                     .attr("y", top1+w_pieSpace1*3/4)
-                     .call(wrap, 50);
-  dump_label1 = svg1.append("text")
-                     .attr("class", "axis_labels")
-                     .text("Dump")
-                     .attr("x", left1+w_pieSpace1/9)
-                     .attr("y", top1+w_pieSpace1/3)
-                     .call(wrap, 50);
-  huck_label1 = svg1.append("text")
-                     .attr("class", "axis_labels")
-                     .text("Huck")
-                     .attr("x", left1+w_pieSpace1/3)
-                     .attr("y", top1+w_pieSpace1/6)
-                     .call(wrap, 50);
-  upsidedown_label1 = svg1.append("text")
-                           .attr("class", "axis_labels")
-                           .text("Upside-down")
-                           .attr("x", left1+w_pieSpace1*3/4)
-                           .attr("y", top1+w_pieSpace1/14)
-                           .call(wrap, 50);
+  legend = svg1.append("g")
+               .attr("id", "legend1")
+               .attr("transform", "translate("+ (w_spacing1) + ","+ (top1+10+w_pieSpace1)+")");
+  legend.selectAll("legendRect")
+        .data([0,1,2,3,4])
+        .enter()
+        .append("rect")
+        .attr("class", "legendRect1")
+        .attr("x", function(d,i) {
+          if (w1>=568) {
+            return w_spacing1 + 120*i;
+          }
+          else {
+            return w_spacing1 + 70*i;
+          }
+        })
+        .attr("y", 10)
+        .attr("width", 7)
+        .attr("height", 7)
+        .style("fill", function(d,i) {
+          return colors1[i];
+        });
+  legend.selectAll("legendText")
+        .data(["Short/ mid down", "Swing", "Dump", "Huck", "Upside- down"])
+        .enter()
+        .append("text")
+        .attr("class", "axis_labels")
+        .attr("id", "legendText1")
+        .attr("x", function(d,i) {
+          if (w1>=568) {
+            return w_spacing1 + 120*i + 12;
+          }
+          else {
+            return w_spacing1 + 70*i + 12;
+          }
+        })
+        .attr("y", 17)
+        .text(function(d) {
+          return d;
+        })
+        .call(wrap, 60)
+        .style("text-anchor", "start");
 }; // end chart 1 setup
 function chart1_resize() {
   w1 = document.getElementById("svg-throwsattempted").getBoundingClientRect().width;
   w_pieSpace1 = (w1-w_spacing1*4)/3;
   w_pie1 = w_pieSpace1*.8;
   outerRadius1 = w_pie1/2;
+  currentHeight1 = w_pieSpace1+h_labels1+top1; // get current height of graphic
+  document.getElementById("svg-throwsattempted").style.height = (currentHeight1) + "px";
+
+  svg1.selectAll(".division_labels")
+      .attr("x", function(d) {
+        if (d=="mens") {
+          return w_spacing1 + w_pieSpace1/2;
+        }
+        else if (d=="mixed") {
+          return w_spacing1*2 + w_pieSpace1*1.5;
+        }
+        else { return w_spacing1*3 + w_pieSpace1*2.5; }
+      });
+  pie1 = d3.pie();
+  arc1 = d3.arc()
+           .innerRadius(0)
+           .outerRadius(outerRadius1);
+  mensArcs1.attr("transform", "translate(" + (w_spacing1+w_pieSpace1/2) + ", " + (top1+20 + w_pie1/2) + ")");
+  mensArcs1.select("path")
+           .attr("d", arc1);
+  mensArcs1.select("text")
+           .attr("x", function(d,i) {
+             if (i==4) {
+               return arc1.centroid(d)[0]+10;
+             }
+             else if (i>1) {
+               return arc1.centroid(d)[0]*1.5
+             }
+             else { return arc1.centroid(d)[0]; }
+           })
+           .attr("y", function(d,i) {
+             if (i>1) {
+               return arc1.centroid(d)[1]*1.5
+             }
+             else { return arc1.centroid(d)[1]; }
+           });
+  mixedArcs1.attr("transform", "translate(" + (w_spacing1*2+w_pieSpace1*1.5) + ", " + (top1+20 + w_pie1/2) + ")");
+  mixedArcs1.select("path")
+            .attr("d", arc1);
+  mixedArcs1.select("text")
+            .attr("x", function(d,i) {
+              if (i==4) {
+                return arc1.centroid(d)[0]+10;
+              }
+              else if (i>1) {
+                return arc1.centroid(d)[0]*1.5
+              }
+              else { return arc1.centroid(d)[0]; }
+            })
+            .attr("y", function(d,i) {
+              if (i>1) {
+                return arc1.centroid(d)[1]*1.5
+              }
+              else { return arc1.centroid(d)[1]; }
+            });
+  womensArcs1.attr("transform", "translate(" + (w_spacing1*3+w_pieSpace1*2.5) + ", " + (top1+20 + w_pie1/2) + ")");
+  womensArcs1.select("path")
+             .attr("d", arc1);
+  womensArcs1.select("text")
+             .attr("x", function(d,i) {
+               if (i==4) {
+                 return arc1.centroid(d)[0]+10;
+               }
+               else if (i>1) {
+                 return arc1.centroid(d)[0]*1.5
+               }
+               else { return arc1.centroid(d)[0]; }
+             })
+             .attr("y", function(d,i) {
+               if (i>1) {
+                 return arc1.centroid(d)[1]*1.5
+               }
+               else { return arc1.centroid(d)[1]; }
+             });
+  legend.attr("transform", "translate("+ (w_spacing1) + ","+ (top1+10+w_pieSpace1)+")");
+  legend.selectAll(".legendRect1")
+        .attr("x", function(d,i) {
+          if (w1>=568) {
+            return w_spacing1 + 120*i;
+          }
+          else {
+            return w_spacing1 + 70*i;
+          }
+        });
+  legend.selectAll("#legendText1")
+        .attr("x", function(d,i) {
+          if (w1>=568) {
+            return w_spacing1 + 120*i + 12;
+          }
+          else {
+            return w_spacing1 + 70*i + 12;
+          }
+        })
+        .attr("y", 17)
+        .text(function(d) {
+          return d;
+        })
+        .call(wrap, 60);
 }; // end chart 1 resize
 
 // SVG 2: Completion rates of throws
@@ -565,22 +678,34 @@ var dataset4 = [{division:"mens", rate:.49, avg:2.2, max:11},
                 {division:"womens", rate:.59, avg:2.8, max:10}];
 var w4 = document.getElementById("svg-turnovers").getBoundingClientRect().width;
 var h4 = document.getElementById("svg-turnovers").getBoundingClientRect().height;
-var top4 = 10;
-var bottom4 = 10;
-var w_labels4 = 90;
-var w_division4 = 60;
-var h_spacing4 = 10;
-var h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
-var w_pieSpace4 = w4-w_division4-w_labels4-20;
-var outerRadius4 = h_pieSpace4/2;
+var top4 = 20;
+var bottom4 = 20;
+var w_labels4 = 60;
+var w_division4 = 55;
+var spacing4 = 10;
+if (w4>=360) {
+  left4 = 15;
+  w_labels4 = 100;
+} else {
+  left4 = 0;
+  w_labels4 = 60;
+}
+// figure out radius of pies
+var h_pieSpace4 = (h4-top4-bottom4-spacing4*2)/3;
+var w_pieSpace4 = w4-w_division4-w_labels4-spacing4*2;
+if (h_pieSpace4<=w_pieSpace4) { // height is smaller; adjust width
+  var pieSpace4 = h_pieSpace4;
+} else { pieSpace4 = w_pieSpace4; }
+var outerRadius4 = pieSpace4/2;
+var mensArcs4, womensArcs4, mixedArcs4, arc4, pie4;
 function chart4_setup() {
   svg4.selectAll("division_labels4")
       .data(dataset_divisions)
       .enter()
       .append("text")
-      .attr("x", 5)
+      .attr("x", left4)
       .attr("y", function(d,i) {
-        return h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+10;
+        return top4 + (h_pieSpace4)*i + h_pieSpace4/2 + spacing4*i+1;
       })
       .text(function(d) {
         if (d=="mens") {
@@ -592,16 +717,16 @@ function chart4_setup() {
         else { return "WOMEN'S"; }
       })
       .attr("class", "division_labels");
-  var pie4 = d3.pie().sort(null);
-  var arc4 = d3.arc()
-               .innerRadius(0)
-               .outerRadius(outerRadius4);
-  var mensArcs4 = svg4.selectAll("g.arc4")
-                      .data(pie4([49,51]))
-                      .enter()
-                      .append("g")
-                      .attr("class", "arc")
-                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (top4+outerRadius4+10) + ")");
+  pie4 = d3.pie().sort(null);
+  arc4 = d3.arc()
+           .innerRadius(0)
+           .outerRadius(outerRadius4);
+  mensArcs4 = svg4.selectAll("g.arc4")
+                  .data(pie4([49,51]))
+                  .enter()
+                  .append("g")
+                  .attr("class", "arc")
+                  .attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (top4+h_pieSpace4/2) + ")");
   mensArcs4.append("path")
            .style("fill", function(d,i) {
              if (i==0) { return coral; }
@@ -620,18 +745,18 @@ function chart4_setup() {
            .text(function(d,i) {
              if (i==0) { return d.value + "%"; }
            });
-  var mixedArcs4 = svg4.selectAll("g.arc4")
-                      .data(pie4([53,47]))
-                      .enter()
-                      .append("g")
-                      .attr("class", "arc")
-                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4+top4+outerRadius4+h_pieSpace4+10) + ")");
+  mixedArcs4 = svg4.selectAll("g.arc4")
+                    .data(pie4([53,47]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (spacing4+top4+h_pieSpace4*1.5) + ")");
   mixedArcs4.append("path")
-           .style("fill", function(d,i) {
-             if (i==0) { return coral; }
-             else { return light_gray; }
-           })
-           .attr("d", arc4);
+             .style("fill", function(d,i) {
+               if (i==0) { return coral; }
+               else { return light_gray; }
+             })
+             .attr("d", arc4);
   mixedArcs4.append("text")
            .attr("text-anchor", "middle")
            .attr("class", "data_labels")
@@ -644,12 +769,12 @@ function chart4_setup() {
            .text(function(d,i) {
              if (i==0) { return d.value + "%"; }
            });
-  var womensArcs4 = svg4.selectAll("g.arc4")
-                      .data(pie4([59,41]))
-                      .enter()
-                      .append("g")
-                      .attr("class", "arc")
-                      .attr("transform", "translate(" + (w_division4+w_pieSpace4/2) + ", " + (h_spacing4*2+top4+outerRadius4+h_pieSpace4*2+10) + ")");
+  womensArcs4 = svg4.selectAll("g.arc4")
+                    .data(pie4([59,41]))
+                    .enter()
+                    .append("g")
+                    .attr("class", "arc")
+                    .attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (spacing4*2+top4+h_pieSpace4*2.5) + ")");
   womensArcs4.append("path")
            .style("fill", function(d,i) {
              if (i==0) { return coral; }
@@ -673,15 +798,16 @@ function chart4_setup() {
       .enter()
       .append("text")
       .attr("class", "data_labels")
-      .attr("x", w_division4+w_pieSpace4+20)
+      .attr("id", "avg_data_label4")
+      .attr("x", w_division4 + spacing4*4 + w_pieSpace4) // need to fudge a bit because of the centered text
       .attr("y", function(d,i) {
-        return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i-20;
+        return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i-20;
       })
       .text(function(d) {
         if (d.division=="mens") {
-          return "Average per point: " + d3.format(.00)(d.avg);
+          return "Avg. per point: " + d3.format(.00)(d.avg);
         }
-        else { return "Average: " + d3.format(.00)(d.avg); }
+        else { return "Avg: " + d3.format(.00)(d.avg); }
       })
       .call(wrap, w_labels4)
       .style("text-anchor", "middle");
@@ -690,15 +816,16 @@ function chart4_setup() {
       .enter()
       .append("text")
       .attr("class", "data_labels")
-      .attr("x", w_division4+w_pieSpace4+20)
+      .attr("id", "max_data_label4")
+      .attr("x", w_division4 + spacing4*4 + w_pieSpace4)
       .attr("y", function(d,i) {
-        return top4+h_pieSpace4*i+h_pieSpace4/2+h_spacing4*i+20;
+        return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i+20;
       })
       .text(function(d) {
         if (d.division=="mens") {
-          return "Maximum per point: " + d3.format(.0)(d.max);
+          return "Max. per point: " + d3.format(.0)(d.max);
         }
-        else { return "Maximum: " + d3.format(.0)(d.max); }
+        else { return "Max: " + d3.format(.0)(d.max); }
       })
       .call(wrap, w_labels4)
       .style("text-anchor", "middle");
@@ -706,9 +833,94 @@ function chart4_setup() {
 function chart4_resize() {
   w4 = document.getElementById("svg-turnovers").getBoundingClientRect().width;
   h4 = document.getElementById("svg-turnovers").getBoundingClientRect().height;
-  h_pieSpace4 = (h4-top4-bottom4-h_spacing4*2)/3;
-  w_pieSpace4 = w4-w_division4-w_labels4-20;
-  outerRadius4 = h_pieSpace4/2;
+  // figure out radius of pies
+  h_pieSpace4 = (h4-top4-bottom4-spacing4*2)/3;
+  w_pieSpace4 = w4-w_division4-w_labels4-spacing4*2;
+  if (h_pieSpace4<=w_pieSpace4) { // height is smaller; adjust width
+    pieSpace4 = h_pieSpace4;
+  } else { pieSpace4 = w_pieSpace4; }
+  outerRadius4 = pieSpace4/2;
+
+  if (w4>=360) {
+    left4 = 15;
+    w_labels4 = 100;
+  } else {
+    left4 = 0;
+    w_labels4 = 60;
+  }
+
+  svg4.selectAll(".division_labels")
+      .attr("x", left4)
+      .attr("y", function(d,i) {
+        return top4 + (h_pieSpace4)*i + h_pieSpace4/2 + spacing4*i+1;
+      })
+      .text(function(d) {
+        if (d=="mens") {
+          return "MEN'S"
+        }
+        else if (d=="mixed") {
+          return "MIXED"
+        }
+        else { return "WOMEN'S"; }
+      });
+  pie4 = d3.pie().sort(null);
+  arc4 = d3.arc()
+           .innerRadius(0)
+           .outerRadius(outerRadius4);
+  mensArcs4.attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (top4+h_pieSpace4/2) + ")");
+  mensArcs4.select("path")
+           .attr("d", arc4);
+  mensArcs4.select("text")
+           .attr("x", function(d) {
+             return arc4.centroid(d)[0]
+           })
+           .attr("y", function(d) {
+             return arc4.centroid(d)[1]
+           });
+  mixedArcs4.attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (spacing4+top4+h_pieSpace4*1.5) + ")");
+  mixedArcs4.select("path")
+             .attr("d", arc4);
+  mixedArcs4.select("text")
+             .attr("x", function(d) {
+               return arc4.centroid(d)[0]
+             })
+             .attr("y", function(d) {
+               return arc4.centroid(d)[1]
+             })
+  womensArcs4.attr("transform", "translate(" + (w_division4+spacing4+w_pieSpace4/2) + ", " + (spacing4*2+top4+h_pieSpace4*2.5) + ")");
+  womensArcs4.select("path")
+             .attr("d", arc4);
+  womensArcs4.select("text")
+             .attr("x", function(d) {
+               return arc4.centroid(d)[0]
+             })
+             .attr("y", function(d) {
+               return arc4.centroid(d)[1]
+             });
+  svg4.selectAll("#avg_data_label4")
+      .attr("x", w_division4 + spacing4*4 + w_pieSpace4) // need to fudge a bit because of the centered text
+      .attr("y", function(d,i) {
+        return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i-20;
+      })
+      .text(function(d) {
+        if (d.division=="mens") {
+          return "Avg. per point: " + d3.format(.00)(d.avg);
+        }
+        else { return "Avg: " + d3.format(.00)(d.avg); }
+      })
+      .call(wrap, w_labels4);
+  svg4.selectAll("#max_data_label4")
+      .attr("x", w_division4 + spacing4*4 + w_pieSpace4)
+      .attr("y", function(d,i) {
+        return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i+20;
+      })
+      .text(function(d) {
+        if (d.division=="mens") {
+          return "Max. per point: " + d3.format(.0)(d.max);
+        }
+        else { return "Max: " + d3.format(.0)(d.max); }
+      })
+      .call(wrap, w_labels4);
 }; // end chart 4 resize
 /////////////////////////////////////////////////////////////////////////////
 var svg5 = d3.select("#svg-fieldpos");

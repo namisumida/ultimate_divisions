@@ -1,8 +1,8 @@
 #options-container {
+  position: absolute;
   display: flex;
   flex-wrap: wrap;
   max-width: 30%;
-  float: right;
 }
 #highlight-container {
   position: relative;

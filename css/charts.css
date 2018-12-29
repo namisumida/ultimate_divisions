@@ -67,3 +67,7 @@
 .xLine {
   stroke: gray;
 }
+.legendRect1 {
+  stroke: black;
+  stroke-width: 0.5px;
+}

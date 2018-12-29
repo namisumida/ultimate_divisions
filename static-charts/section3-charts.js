@@ -273,7 +273,7 @@ var w9 = document.getElementById("svg-odlines").getBoundingClientRect().width;
 var h9 = document.getElementById("svg-odlines").getBoundingClientRect().height;
 var h_label = 5;
 var h_spacing9 = 10;
-var w_diff9 = 70;
+var w_diff9 = 60;
 var h_dots9 = (h9 - h_spacing9*3)/3;
 var xScale9 = d3.scaleLinear()
                 .domain([0,1])
@@ -419,9 +419,9 @@ function chart9_setup() {
       .attr("id", "diff_axis_labels9")
       .text("O-line- D-line diff")
       .attr("x", xScale9(1)+10)
-      .attr("y", 25)
+      .attr("y", 30)
+      .call(wrap, w_diff9)
       .style("text-anchor", "start")
-      .call(wrap, 70)
       .style("font-family", "radnika-bold");
   svg9.selectAll("diffLabel9")
       .data(dataset9)
@@ -514,8 +514,8 @@ function chart9_resize() {
   svg9.select("#diff_axis_labels9")
       .text("O-line- D-line diff")
       .attr("x", xScale9(1)+10)
-      .attr("y", 25)
-      .call(wrap, 70);
+      .attr("y", 30)
+      .call(wrap, w_diff9);
   svg9.selectAll("#diffLabel9")
       .attr("x", xScale9(1)+35);
   svg9.select("#zero_label9")

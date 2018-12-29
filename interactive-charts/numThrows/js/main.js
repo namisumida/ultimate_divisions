@@ -1,5 +1,5 @@
 // Width and height
-var margin = {top: 0, bottom: 10, right: 20, left: 20};
+var margin = {top: 0, bottom: 10, right: 10, left: 10};
 var w_numthrows = document.getElementById("svg-numthrows").getBoundingClientRect().width;
 var h_numthrows = {svg: 350, head: 0 };
 var h_mens = (h_numthrows.svg-margin.bottom)/3/2;
@@ -336,6 +336,9 @@ function setup() {
                 .style("fill", default_color)
                 .style("opacity", 0.75);
           }); // end on mouseout
+
+  // Option container positioning
+  document.getElementById("options-container").style.left = document.body.clientWidth*.68 + "px";
 }; // end setup function
 
 function resize() {
@@ -461,6 +464,9 @@ function resize() {
                     .style("fill", default_color)
                     .style("opacity", 0.75);
               }); // end on mouseout
+
+  // Option container positioning
+  document.getElementById("options-container").style.left = document.body.clientWidth*.68 + "px";
 }; // end resize
 
 function init() {

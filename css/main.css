@@ -113,12 +113,27 @@ section {
 #navigation-container {
   border-top: solid 1px black;
 }
-#back {
-  float: left;
-  margin-bottom: 50px;
+@media screen and (max-width: 470px) {
+  #back {
+    float: left;
+    margin-bottom: 50px;
+    font-size: 12px;
+  }
+  #forward {
+    text-align: right;
+    float: right;
+    margin-bottom: 50px;
+    font-size: 12px;
+  }
 }
-#forward {
-  text-align: right;
-  float: right;
-  margin-bottom: 50px;
+@media screen and (min-width: 470px) {
+  #back {
+    float: left;
+    margin-bottom: 50px;
+  }
+  #forward {
+    text-align: right;
+    float: right;
+    margin-bottom: 50px;
+  }
 }
