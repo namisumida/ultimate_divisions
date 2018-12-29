@@ -868,7 +868,7 @@ function chart4_setup() {
       .append("text")
       .attr("class", "data_labels")
       .attr("id", "avg_data_label4")
-      .attr("x", w_division4 + spacing4*4 + w_pieSpace4) // need to fudge a bit because of the centered text
+      .attr("x", w_division4 + spacing4*5 + w_pieSpace4) // need to fudge a bit because of the centered text
       .attr("y", function(d,i) {
         return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i-20;
       })
@@ -886,7 +886,7 @@ function chart4_setup() {
       .append("text")
       .attr("class", "data_labels")
       .attr("id", "max_data_label4")
-      .attr("x", w_division4 + spacing4*4 + w_pieSpace4)
+      .attr("x", w_division4 + spacing4*5 + w_pieSpace4)
       .attr("y", function(d,i) {
         return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i+20;
       })
@@ -967,7 +967,7 @@ function chart4_resize() {
                return arc4.centroid(d)[1]
              });
   svg4.selectAll("#avg_data_label4")
-      .attr("x", w_division4 + spacing4*4 + w_pieSpace4) // need to fudge a bit because of the centered text
+      .attr("x", w_division4 + spacing4*5 + w_pieSpace4) // need to fudge a bit because of the centered text
       .attr("y", function(d,i) {
         return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i-20;
       })
@@ -979,7 +979,7 @@ function chart4_resize() {
       })
       .call(wrap, w_labels4);
   svg4.selectAll("#max_data_label4")
-      .attr("x", w_division4 + spacing4*4 + w_pieSpace4)
+      .attr("x", w_division4 + spacing4*5 + w_pieSpace4)
       .attr("y", function(d,i) {
         return top4 + h_pieSpace4*i + h_pieSpace4/2 + spacing4*i+20;
       })
@@ -997,7 +997,10 @@ var w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
 var h5 = document.getElementById("svg-fieldpos").getBoundingClientRect().height;
 var top5 = 35;
 var h_spacing5 = 10;
-var w_label5 = 95;
+if (document.documentElement.clientWidth>=600) {
+  var w_label5 = 95;
+}
+else { var w_label5 = 75; }
 var w_field5 = (w5-w_label5-10);
 var h_field5 = (h5-top5-h_spacing5*2);
 var outerRadius5 = (h_field5-40)/3/2;
@@ -1016,13 +1019,13 @@ function chart5_setup() {
   svg5.append("text")
       .attr("x", w_label5+w_field5/2)
       .attr("y", function() {
-        if (w5>=523) { return top5; }
+        if (w5<=316) { return top5-15; }
         else { return top5-5; }
       })
       .text("Between full field and end zone")
       .attr("class", "axis_labels")
       .attr("id", "btwn_axis_label5")
-      .call(wrap, w_field5*2/6);
+      .call(wrap, d3.min([w_field5*2/6,100]));
   svg5.append("text")
       .attr("x", w_label5+w_field5*(4/5))
       .attr("y", top5)
@@ -1298,6 +1301,11 @@ function chart5_resize() {
   w5 = document.getElementById("svg-fieldpos").getBoundingClientRect().width;
   w_field5 = (w5-w_label5-10);
 
+  if (document.documentElement.clientWidth>=600) {
+    w_label5 = 95;
+  }
+  else { w_label5 = 75; }
+
   // labels
   svg5.select("#full_axis_label5")
       .attr("x", w_label5+w_field5/5)
@@ -1307,11 +1315,11 @@ function chart5_resize() {
   svg5.select("#btwn_axis_label5")
       .attr("x", w_label5+w_field5/2)
       .attr("y", function() {
-        if (w5>=523) { return top5; }
+        if (w5<=316) { return top5-15; }
         else { return top5-5; }
       })
       .text("Between full field and end zone")
-      .call(wrap, w_field5*2/6);
+      .call(wrap, d3.min([w_field5*2/6,100]));
   svg5.select("#end_axis_label5")
       .attr("x", w_label5+w_field5*(4/5))
       .attr("y", top5)
