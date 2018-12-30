@@ -132,20 +132,18 @@ function chart6_setup() {
   svg6.append("text")
       .attr("class", "axis_labels")
       .attr("id", "hold_axis_label6")
-      .text("Offensive holds")
+      .text("O-line holds")
       .attr("x", 2*max_r*.73+w_label6)
-      .attr("y", function() {
-        if (w6>=435) {
-          return max_r;
-        }
-        else { return max_r-5; }
-      })
+      .attr("y", max_r)
       .style("text-anchor", "start")
       .call(wrap, .12*w6)
   svg6.append("text")
       .attr("class", "axis_labels")
       .attr("id", "single_axis_label6")
-      .text("Single- possession scores")
+      .text(function() {
+        if (w6>=435) { return "Single- possession scores"; }
+        else { return "Single- poss. scores";}
+      })
       .attr("x", 2*max_r*.73+w_label6)
       .attr("y", function() {
         if (w6>=435) {
@@ -242,17 +240,15 @@ function chart6_resize() {
         return max_r + (max_r - 2*(max_r * d.hold))+40;
       });
   svg6.select("#hold_axis_label6")
-      .text("Offensive holds")
+      .text("O-line holds")
       .attr("x", 2*max_r*.73+w_label6)
-      .attr("y", function() {
-        if (w6>=435) {
-          return max_r;
-        }
-        else { return max_r-5; }
-      })
+      .attr("y", max_r)
       .call(wrap, .12*w6);
   svg6.select("#single_axis_label6")
-      .text("Single- possession scores")
+      .text(function() {
+        if (w6>=435) { return "Single- possession scores"; }
+        else { return "Single- poss. scores";}
+      })
       .attr("x", 2*max_r*.73+w_label6)
       .attr("y", function() {
         if (w6>=435) {
@@ -395,20 +391,20 @@ function chart7_setup() {
     svg7.append("text")
         .attr("class", "axis_labels")
         .attr("id", "losing_avg_label")
-        .text("Losing teams")
+        .text("Lose teams")
         .attr("x", xScale7(.71))
         .attr("y", 25)
-        .call(wrap, 50)
+        .call(wrap, 30)
         .style("text-anchor", "end")
         .style("fill", orange)
         .style("font-family", "radnika-bold");
     svg7.append("text")
         .attr("class", "axis_labels")
         .attr("id", "winning_avg_label")
-        .text("Winning teams")
+        .text("Win teams")
         .attr("x", xScale7(.76))
         .attr("y", 25)
-        .call(wrap, 50)
+        .call(wrap, 30)
         .style("text-anchor", "start")
         .style("fill", coral)
         .style("font-family", "radnika-bold");
@@ -460,11 +456,14 @@ function chart7_setup() {
   svg7.append("text")
       .attr("class", "axis_labels")
       .attr("id", "diff_axis_label7")
-      .text("Winning- Losing diff")
-      .attr("x", xScale7(1)+10)
+      .text(function() {
+        if (w7>=550) { return "Winning- Losing diff"; }
+        else { return "Win- Lose diff"}
+      })
+      .attr("x", xScale7(1)+w_diff7/2)
       .attr("y", 25)
-      .style("text-anchor", "start")
-      .call(wrap, w_diff7)
+      .style("text-anchor", "middle")
+      .call(wrap, w_diff7-10)
       .style("font-family", "radnika-bold");
   svg7.selectAll("diffLabel7")
       .data(dataset7)
@@ -501,7 +500,10 @@ function chart7_setup() {
       .attr("y", h_label+h_dots7+15)
       .text("100%")
       .style("fill", "gray")
-      .style("text-anchor", "end")
+      .style("text-anchor", function() {
+        if (w7>=350) { return "end"; }
+        else { return "middle"; }
+      })
       .style("font-size", function() {
         if (bodyWidth>=600) {
           return 10;
@@ -552,15 +554,15 @@ function chart7_resize() {
   } // end if statement
   else {
     svg7.select("#losing_avg_label")
-        .text("Losing teams")
+        .text("Lose teams")
         .attr("x", xScale7(.71))
         .attr("y", 25)
-        .call(wrap, 50);
+        .call(wrap, 30);
     svg7.select("#winning_avg_label")
-        .text("Winning teams")
+        .text("Win teams")
         .attr("x", xScale7(.76))
         .attr("y", 25)
-        .call(wrap, 50);
+        .call(wrap, 30);
     svg7.selectAll("#winLabel7")
         .attr("x", function(d) {
           return xScale7(d.win);
@@ -583,11 +585,14 @@ function chart7_resize() {
         });
   }; // end else
   svg7.select("#diff_axis_label7")
-      .text("Winning- Losing diff")
-      .attr("x", xScale7(1)+10)
+      .text(function() {
+        if (w7>=550) { return "Winning- Losing diff"; }
+        else { return "Win- Lose diff"}
+      })
+      .attr("x", xScale7(1)+w_diff7/2)
       .attr("y", 25)
-      .style("text-anchor", "start")
-      .call(wrap, w_diff7);
+      .style("text-anchor", "middle")
+      .call(wrap, w_diff7-10);
   svg7.selectAll("#diffLabel7")
       .attr("x", xScale7(1)+35);
   svg7.select("#zero_label7")
@@ -605,6 +610,10 @@ function chart7_resize() {
           return 10;
         }
         else { return 9; }
+      })
+      .style("text-anchor", function() {
+        if (w7>=350) { return "end"; }
+        else { return "middle"; }
       });
 }; // end chart 7 resize
 

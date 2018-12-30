@@ -30,10 +30,8 @@ function chart8_setup() {
         else { return w_label8 + w_spacing8*2 + w_circle8*2.5; }
       })
       .attr("y", function() {
-        if (w8>=720) {
-          return 40;
-        }
-        else { return 30; }
+        if (w8>=510) { return 40; }
+        else { return 20; }
       })
       .text(function(d) {
         if (d=="mens") {
@@ -132,7 +130,10 @@ function chart8_setup() {
   svg8.append("text")
       .attr("class", "axis_labels")
       .attr("id", "possessed_axis_label")
-      .text("D-line points in which they gain possession")
+      .text(function() {
+        if (w8>=368) { return "D-line points in which they gain possession"; }
+        else { return "D-line had-disc points"; }
+      })
       .attr("x", 2*max_r*.58+w_label8 + w_spacing8)
       .attr("y", function() {
         if (w8>=435) {
@@ -180,10 +181,8 @@ function chart8_resize() {
         else { return w_label8 + w_spacing8*2 + w_circle8*2.5; }
       })
       .attr("y", function() {
-        if (w8>=720) {
-          return 40;
-        }
-        else { return 30; }
+        if (w8>=510) { return 40; }
+        else { return 20; }
       });
   svg8.selectAll(".scores_circles")
       .attr("cx", function(d) {
@@ -244,7 +243,10 @@ function chart8_resize() {
         return max_r + (max_r - 2*(max_r * d.possessed))+17;
       });
   svg8.select("#possessed_axis_label")
-      .text("D-line points in which they gain possession")
+      .text(function() {
+        if (w8>=368) { return "D-line points in which they gain possession"; }
+        else { return "D-line had-disc points"; }
+      })
       .attr("x", 2*max_r*.58+w_label8 + w_spacing8)
       .attr("y", function() {
         if (w8>=435) {
@@ -422,11 +424,17 @@ function chart9_setup() {
   svg9.append("text")
       .attr("class", "axis_labels")
       .attr("id", "diff_axis_labels9")
-      .text("O-line- D-line diff")
-      .attr("x", xScale9(1)+10)
-      .attr("y", 30)
+      .text(function() {
+        if (w9>=390) { return "O-line- D-line diff"; }
+        else { return "Diff"}
+      })
+      .attr("x", xScale9(1)+w_diff9/2)
+      .attr("y", function() {
+        if (w9>=390) { return 30; }
+        else { return 40; }
+      })
       .call(wrap, w_diff9-10)
-      .style("text-anchor", "start")
+      .style("text-anchor", "middle")
       .style("font-family", "radnika-bold");
   svg9.selectAll("diffLabel9")
       .data(dataset9)
@@ -463,7 +471,10 @@ function chart9_setup() {
       .attr("y", h_label+h_dots9+15)
       .text("100%")
       .style("fill", "gray")
-      .style("text-anchor", "end")
+      .style("text-anchor", function() {
+        if (w9>=380) { return "end"; }
+        else { return "middle"; }
+      })
       .style("font-size", function() {
         if (bodyWidth>=600) {
           return 10;
@@ -534,10 +545,16 @@ function chart9_resize() {
       });
 
   svg9.select("#diff_axis_labels9")
-      .text("O-line- D-line diff")
-      .attr("x", xScale9(1)+10)
-      .attr("y", 30)
-      .call(wrap, w_diff9-10);
+      .text(function() {
+        if (w9>=390) { return "O-line- D-line diff"; }
+        else { return "Diff"}
+      })
+      .attr("x", xScale9(1)+w_diff9/2)
+      .attr("y", function() {
+        if (w9>=390) { return 30; }
+        else { return 40; }
+      })
+      .call(wrap, w_diff9-20);
   svg9.selectAll("#diffLabel9")
       .attr("x", xScale9(1)+35);
   svg9.select("#zero_label9")
@@ -555,6 +572,10 @@ function chart9_resize() {
           return 10;
         }
         else { return 9; }
+      })
+      .style("text-anchor", function() {
+        if (w9>=380) { return "end"; }
+        else { return "middle"; }
       });
 }; // end chart 9 resize
 ////////////////////////////////////////////////////////////////////////////////
