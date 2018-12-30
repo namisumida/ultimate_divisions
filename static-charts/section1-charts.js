@@ -155,14 +155,14 @@ function chart1_setup() {
         .append("rect")
         .attr("class", "legendRect1")
         .attr("x", function(d,i) {
-          if (w1>=568) {
-            return w_spacing1 + 120*i;
-          }
+          if (w1>=568) { return w_spacing1 + 100*i; }
           else {
-            return w_spacing1 + 70*i;
+            if (i==0) { return w_spacing1; }
+            else if (i==1) { return w_spacing1 + 70*i; }
+            else { return w_spacing1 + 70 + 50*(i-1); }
           }
         })
-        .attr("y", 10)
+        .attr("y", 15)
         .attr("width", 7)
         .attr("height", 7)
         .style("fill", function(d,i) {
@@ -175,14 +175,14 @@ function chart1_setup() {
         .attr("class", "axis_labels")
         .attr("id", "legendText1")
         .attr("x", function(d,i) {
-          if (w1>=568) {
-            return w_spacing1 + 120*i + 12;
-          }
+          if (w1>=568) { return w_spacing1 + 100*i + 12; }
           else {
-            return w_spacing1 + 70*i + 12;
+            if (i==0) { return w_spacing1 + 12; }
+            else if (i==1) { return w_spacing1 + 70*i + 12; }
+            else { return w_spacing1 + 70 + 50*(i-1) + 12; }
           }
         })
-        .attr("y", 17)
+        .attr("y", 22)
         .text(function(d) {
           return d;
         })
@@ -271,23 +271,23 @@ function chart1_resize() {
   legend.attr("transform", "translate("+ (w_spacing1) + ","+ (top1+10+w_pieSpace1)+")");
   legend.selectAll(".legendRect1")
         .attr("x", function(d,i) {
-          if (w1>=568) {
-            return w_spacing1 + 120*i;
-          }
+          if (w1>=568) { return w_spacing1 + 100*i; }
           else {
-            return w_spacing1 + 70*i;
+            if (i==0) { return w_spacing1; }
+            else if (i==1) { return w_spacing1 + 70*i; }
+            else { return w_spacing1 + 70 + 50*(i-1); }
           }
         });
   legend.selectAll("#legendText1")
         .attr("x", function(d,i) {
-          if (w1>=568) {
-            return w_spacing1 + 120*i + 12;
-          }
+          if (w1>=568) { return w_spacing1 + 100*i + 12; }
           else {
-            return w_spacing1 + 70*i + 12;
+            if (i==0) { return w_spacing1 + 12; }
+            else if (i==1) { return w_spacing1 + 70*i + 12; }
+            else { return w_spacing1 + 70 + 50*(i-1) + 12; }
           }
         })
-        .attr("y", 17)
+        .attr("y", 22)
         .text(function(d) {
           return d;
         })

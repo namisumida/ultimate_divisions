@@ -338,11 +338,11 @@ function setup() {
           }); // end on mouseout
 
   // Option container positioning
-  if (document.body.clientWidth >= 750) {
-    document.getElementById("options-container").style.left = document.body.clientWidth*.6 + "px";
+  if (document.documentElement.clientWidth >= 750) {
+    document.getElementById("options-container").style.left = document.documentElement.clientWidth*.6 + "px";
   }
   else {
-    document.getElementById("options-container").style.left = document.body.clientWidth*.75 + "px";
+    document.getElementById("options-container").style.left = document.documentElement.clientWidth*.75 + "px";
   }
 }; // end setup function
 
@@ -471,11 +471,11 @@ function resize() {
               }); // end on mouseout
 
   // Option container positioning
-  if (document.body.clientWidth >= 750) {
-    document.getElementById("options-container").style.left = document.body.clientWidth*.6 + "px";
+  if (document.documentElement.clientWidth >= 750) {
+    document.getElementById("options-container").style.left = document.documentElement.clientWidth*.6 + "px";
   }
   else {
-    document.getElementById("options-container").style.left = document.body.clientWidth*.75 + "px";
+    document.getElementById("options-container").style.left = document.documentElement.clientWidth*.75 + "px";
   }
 
 }; // end resize
