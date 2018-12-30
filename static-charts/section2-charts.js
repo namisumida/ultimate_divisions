@@ -1,3 +1,4 @@
+var bodyWidth = document.documentElement.clientWidth;
 /////////////////////////////////////////////////////////////////////////////
 var svg6 = d3.select("#svg-conversionrate");
 var dataset6 = [{division:"mens", hold:.81, single:.61},
@@ -271,10 +272,14 @@ var h7 = document.getElementById("svg-perfectconversion").getBoundingClientRect(
 var h_label = 5;
 var h_spacing7 = 10;
 var w_diff7 = 70;
+if (bodyWidth>=600) {
+  var w_division7 = 100;
+}
+else { var w_division7 = 75; }
 var h_dots7 = (h7 - h_spacing7*3)/3;
 var xScale7 = d3.scaleLinear()
                 .domain([0,1])
-                .range([100, w7-w_diff7])
+                .range([w_division7, w7-w_diff7])
 
 function chart7_setup() {
   svg7.selectAll("division_labels7")
@@ -459,7 +464,7 @@ function chart7_setup() {
       .attr("x", xScale7(1)+10)
       .attr("y", 25)
       .style("text-anchor", "start")
-      .call(wrap, 70)
+      .call(wrap, w_diff7)
       .style("font-family", "radnika-bold");
   svg7.selectAll("diffLabel7")
       .data(dataset7)
@@ -482,7 +487,13 @@ function chart7_setup() {
       .attr("y", h_label+h_dots7+15)
       .text("0%")
       .style("fill", "gray")
-      .style("text-anchor", "start");
+      .style("text-anchor", "start")
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
   svg7.append("text")
       .attr("class", "axis_labels")
       .attr("id", "hundred_label7")
@@ -490,13 +501,24 @@ function chart7_setup() {
       .attr("y", h_label+h_dots7+15)
       .text("100%")
       .style("fill", "gray")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
 }; // end chart7 setup
 function chart7_resize() {
+  bodyWidth = document.documentElement.clientWidth;
   w7 = document.getElementById("svg-perfectconversion").getBoundingClientRect().width;
+  if (bodyWidth>=600) {
+    var w_division7 = 100;
+  }
+  else { var w_division7 = 75; }
   xScale7 = d3.scaleLinear()
               .domain([0,1])
-              .range([100, w7-80])
+              .range([w_division7, w7-w_diff7])
   svg7.selectAll(".xLine")
       .attr("x1", xScale7(0))
       .attr("x2", xScale7(1));
@@ -565,13 +587,25 @@ function chart7_resize() {
       .attr("x", xScale7(1)+10)
       .attr("y", 25)
       .style("text-anchor", "start")
-      .call(wrap, 70);
+      .call(wrap, w_diff7);
   svg7.selectAll("#diffLabel7")
       .attr("x", xScale7(1)+35);
   svg7.select("#zero_label7")
-      .attr("x", xScale7(0));
+      .attr("x", xScale7(0))
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
   svg7.select("#hundred_label7")
-      .attr("x", xScale7(1));
+      .attr("x", xScale7(1))
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
 }; // end chart 7 resize
 
 ////////////////////////////////////////////////////////////////////////////////

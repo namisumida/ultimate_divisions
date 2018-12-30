@@ -1,4 +1,4 @@
-var bodyWidth;
+var bodyWidth = document.documentElement.clientWidth;
 // SVG 1: Throws attempted
 var svg1 = d3.select("#svg-throwsattempted");
 var dataset1_throws = ["Short/mid down", "Swing", "Dump", "Huck", "Upside-down"];

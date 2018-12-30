@@ -1,3 +1,4 @@
+var bodyWidth = document.documentElement.clientWidth;
 /////////////////////////////////////////////////////////////////////////////
 var svg8 = d3.select("#svg-dline");
 var dataset8 = [{division:"mens", possessed:.58, scores:.4},
@@ -273,11 +274,15 @@ var w9 = document.getElementById("svg-odlines").getBoundingClientRect().width;
 var h9 = document.getElementById("svg-odlines").getBoundingClientRect().height;
 var h_label = 5;
 var h_spacing9 = 10;
-var w_diff9 = 60;
+var w_diff9 = 70;
+if (bodyWidth>=600) {
+  var w_division9 = 100;
+}
+else { var w_division9 = 75; }
 var h_dots9 = (h9 - h_spacing9*3)/3;
 var xScale9 = d3.scaleLinear()
                 .domain([0,1])
-                .range([100, w9-w_diff9])
+                .range([w_division9, w9-w_diff9])
 function chart9_setup() {
   svg9.selectAll("division_labels9")
       .data(dataset_divisions)
@@ -420,7 +425,7 @@ function chart9_setup() {
       .text("O-line- D-line diff")
       .attr("x", xScale9(1)+10)
       .attr("y", 30)
-      .call(wrap, w_diff9)
+      .call(wrap, w_diff9-10)
       .style("text-anchor", "start")
       .style("font-family", "radnika-bold");
   svg9.selectAll("diffLabel9")
@@ -444,7 +449,13 @@ function chart9_setup() {
       .attr("y", h_label+h_dots9+15)
       .text("0%")
       .style("fill", "gray")
-      .style("text-anchor", "start");
+      .style("text-anchor", "start")
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
   svg9.append("text")
       .attr("class", "axis_labels")
       .attr("id", "hundred_label9")
@@ -452,13 +463,24 @@ function chart9_setup() {
       .attr("y", h_label+h_dots9+15)
       .text("100%")
       .style("fill", "gray")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
 }; // end chart9 setup
 function chart9_resize() {
+  bodyWidth = document.documentElement.clientWidth;
   w9 = document.getElementById("svg-odlines").getBoundingClientRect().width;
+  if (bodyWidth>=600) {
+    var w_division9 = 100;
+  }
+  else { var w_division9 = 75; }
   xScale9 = d3.scaleLinear()
                   .domain([0,1])
-                  .range([100, w9-80]);
+                  .range([w_division9, w9-w_diff9]);
   svg9.selectAll(".xLine")
       .attr("x1", xScale9(0))
       .attr("x2", xScale9(1));
@@ -515,13 +537,25 @@ function chart9_resize() {
       .text("O-line- D-line diff")
       .attr("x", xScale9(1)+10)
       .attr("y", 30)
-      .call(wrap, w_diff9);
+      .call(wrap, w_diff9-10);
   svg9.selectAll("#diffLabel9")
       .attr("x", xScale9(1)+35);
   svg9.select("#zero_label9")
-      .attr("x", xScale9(0));
+      .attr("x", xScale9(0))
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
   svg9.select("#hundred_label9")
-      .attr("x", xScale9(1));
+      .attr("x", xScale9(1))
+      .style("font-size", function() {
+        if (bodyWidth>=600) {
+          return 10;
+        }
+        else { return 9; }
+      });
 }; // end chart 9 resize
 ////////////////////////////////////////////////////////////////////////////////
 function init() {
