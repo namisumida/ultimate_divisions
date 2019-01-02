@@ -554,7 +554,7 @@ function chart9_resize() {
         if (w9>=390) { return 30; }
         else { return 40; }
       })
-      .call(wrap, w_diff9-20);
+      .call(wrap, w_diff9-10);
   svg9.selectAll("#diffLabel9")
       .attr("x", xScale9(1)+35);
   svg9.select("#zero_label9")
