@@ -276,7 +276,7 @@ var w9 = document.getElementById("svg-odlines").getBoundingClientRect().width;
 var h9 = document.getElementById("svg-odlines").getBoundingClientRect().height;
 var h_label = 5;
 var h_spacing9 = 10;
-var w_diff9 = 70;
+var w_diff9 = 80;
 if (bodyWidth>=600) {
   var w_division9 = 100;
 }
@@ -291,9 +291,7 @@ function chart9_setup() {
       .enter()
       .append("text")
       .attr("x", 5)
-      .attr("y", function(d,i) {
-        return h_label+(i+1)*h_dots9;
-      })
+      .attr("y", function(d,i) { return h_label+(i+1)*h_dots9; })
       .text(function(d) {
         if (d=="mens") {
           return "MEN'S"
@@ -311,23 +309,15 @@ function chart9_setup() {
       .attr("class", "xLine")
       .attr("x1", xScale9(0))
       .attr("x2", xScale9(1))
-      .attr("y1", function(d,i) {
-        return h_label+(i+1)*h_dots9;
-      })
-      .attr("y2", function(d,i) {
-        return h_label+(i+1)*h_dots9;
-      });
+      .attr("y1", function(d,i) { return h_label+(i+1)*h_dots9; })
+      .attr("y2", function(d,i) { return h_label+(i+1)*h_dots9; });
   svg9.selectAll("oDots9")
       .data(dataset9)
       .enter()
       .append("circle")
       .attr("class", "oDots")
-      .attr("cx", function(d) {
-        return xScale9(d.oline);
-      })
-      .attr("cy", function(d,i) {
-        return h_label+(i+1)*h_dots9;
-      })
+      .attr("cx", function(d) { return xScale9(d.oline); })
+      .attr("cy", function(d,i) { return h_label+(i+1)*h_dots9; })
       .attr("r", 6)
       .style("fill", coral);
   svg9.selectAll("dDots9")
@@ -335,12 +325,8 @@ function chart9_setup() {
       .enter()
       .append("circle")
       .attr("class", "dDots")
-      .attr("cx", function(d) {
-        return xScale9(d.dline);
-      })
-      .attr("cy", function(d,i) {
-        return h_label+(i+1)*h_dots9;
-      })
+      .attr("cx", function(d) { return xScale9(d.dline); })
+      .attr("cy", function(d,i) { return h_label+(i+1)*h_dots9; })
       .attr("r", 6)
       .style("fill", blue);
   svg9.selectAll("oLabel9")
@@ -349,22 +335,12 @@ function chart9_setup() {
       .append("text")
       .attr("class", "data_labels")
       .attr("id", "oLabel9")
-      .attr("x", function(d) {
-        return xScale9(d.oline);
-      })
-      .attr("y", function(d,i) {
-        return h_label+20+(i+1)*h_dots9;
-      })
-      .text(function(d) {
-        return d3.format(".0%")(d.oline);
-      })
+      .attr("x", function(d) { return xScale9(d.oline); })
+      .attr("y", function(d,i) { return h_label+20+(i+1)*h_dots9; })
+      .text(function(d) { return d3.format(".0%")(d.oline); })
       .style("fill", coral)
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          if (d.division=="mixed") {
-            return "start";
-          }
-        }
+        if (d.division=="mixed" & w9<680) { return "start"; }
         else { return "middle"; }
       });
   svg9.selectAll("dLabel9")
@@ -373,22 +349,13 @@ function chart9_setup() {
       .append("text")
       .attr("class", "data_labels")
       .attr("id", "dLabel9")
-      .attr("x", function(d) {
-        return xScale9(d.dline);
-      })
-      .attr("y", function(d,i) {
-        return h_label+20+(i+1)*h_dots9;
-      })
-      .text(function(d) {
-        return d3.format(".0%")(d.dline);
-      })
+      .attr("x", function(d) { return xScale9(d.dline); })
+      .attr("y", function(d,i) { return h_label+20+(i+1)*h_dots9; })
+      .text(function(d) { return d3.format(".0%")(d.dline); })
       .style("fill", blue)
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          if (d.division=="mixed") {
-            return "end";
-          }
-        }
+        if (d.division=="mixed" & w9 < 680) { return "end"; }
+        else if (d.division=="mens" & w9 < 360) { return "end"; }
         else { return "middle"; }
       });
   svg9.append("text")
@@ -401,9 +368,7 @@ function chart9_setup() {
       .style("fill", blue)
       .style("font-family", "radnika-bold")
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          return "end";
-        }
+        if (w9 < 680) { return "end"; }
         else { return "middle"; }
       });
   svg9.append("text")
@@ -416,9 +381,7 @@ function chart9_setup() {
       .style("fill", coral)
       .style("font-family", "radnika-bold")
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          return "start";
-        }
+        if (w9 < 680) { return "start"; }
         else { return "middle"; }
       });
   svg9.append("text")
@@ -434,7 +397,6 @@ function chart9_setup() {
         else { return 40; }
       })
       .call(wrap, w_diff9-10)
-      .style("text-anchor", "middle")
       .style("font-family", "radnika-bold");
   svg9.selectAll("diffLabel9")
       .data(dataset9)
@@ -443,12 +405,8 @@ function chart9_setup() {
       .attr("class", "data_labels")
       .attr("id", "diffLabel9")
       .attr("x", xScale9(1)+35)
-      .attr("y", function(d,i) {
-        return h_label+(i+1)*h_dots9+5;
-      })
-      .text(function(d) {
-        return d3.format(".0%")(d.oline-d.dline);
-      })
+      .attr("y", function(d,i) { return h_label+(i+1)*h_dots9+5; })
+      .text(function(d) { return d3.format(".0%")(d.oline-d.dline); })
       .style("text-anchor", "middle");
   svg9.append("text")
       .attr("class", "axis_labels")
@@ -459,9 +417,7 @@ function chart9_setup() {
       .style("fill", "gray")
       .style("text-anchor", "start")
       .style("font-size", function() {
-        if (bodyWidth>=600) {
-          return 10;
-        }
+        if (bodyWidth>=600) { return 10; }
         else { return 9; }
       });
   svg9.append("text")
@@ -476,9 +432,7 @@ function chart9_setup() {
         else { return "middle"; }
       })
       .style("font-size", function() {
-        if (bodyWidth>=600) {
-          return 10;
-        }
+        if (bodyWidth>=600) { return 10; }
         else { return 9; }
       });
 }; // end chart9 setup
@@ -490,29 +444,19 @@ function chart9_resize() {
   }
   else { var w_division9 = 75; }
   xScale9 = d3.scaleLinear()
-                  .domain([0,1])
-                  .range([w_division9, w9-w_diff9]);
+              .domain([0,1])
+              .range([w_division9, w9-w_diff9]);
   svg9.selectAll(".xLine")
       .attr("x1", xScale9(0))
       .attr("x2", xScale9(1));
   svg9.selectAll(".oDots")
-      .attr("cx", function(d) {
-        return xScale9(d.oline);
-      });
+      .attr("cx", function(d) { return xScale9(d.oline); });
   svg9.selectAll(".dDots")
-      .attr("cx", function(d) {
-        return xScale9(d.dline);
-      });
+      .attr("cx", function(d) { return xScale9(d.dline); });
   svg9.selectAll("#oLabel9")
-      .attr("x", function(d) {
-        return xScale9(d.oline);
-      })
+      .attr("x", function(d) { return xScale9(d.oline); })
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          if (d.division=="mixed") {
-            return "start";
-          }
-        }
+        if (d.division=="mixed" & w9<680) { return "start"; }
         else { return "middle"; }
       });
   svg9.selectAll("#dLabel9")
@@ -520,11 +464,8 @@ function chart9_resize() {
         return xScale9(d.dline);
       })
       .style("text-anchor", function(d) {
-        if (w9 < 680) {
-          if (d.division=="mixed") {
-            return "end";
-          }
-        }
+        if (d.division=="mixed" & w9 < 680) { return "end"; }
+        else if (d.division=="mens" & w9 < 360) { return "end"; }
         else { return "middle"; }
       });
   svg9.select("#dline_axis_labels")

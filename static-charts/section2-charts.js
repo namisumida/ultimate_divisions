@@ -12,7 +12,7 @@ else { var w_label6 = 30;}
 var w_spacing6 = 10;
 var w_circle6 = (w6-w_label6-w_spacing6)/3;
 var max_r = w_circle6/2;
-var currentHeight = w_circle6+20 // get current height of graphic
+var currentHeight = w_circle6+30 // get current height of graphic
 document.getElementById("svg-conversionrate").style.height = (currentHeight) + "px";
 function chart6_setup() {
   svg6.selectAll("division_labels6")
@@ -149,7 +149,7 @@ function chart6_setup() {
         if (w6>=435) {
           return 1.8*max_r;
         }
-        else { return 1.8*max_r; }
+        else { return 1.7*max_r; }
       })
       .call(wrap, .12*w6)
       .style("text-anchor", "start")
@@ -159,7 +159,7 @@ function chart6_resize() {
   w6 = document.getElementById("svg-conversionrate").getBoundingClientRect().width;
   w_circle6 = (w6-w_label6-w_spacing6)/3;
   max_r = w_circle6/2;
-  currentHeight = w_circle6+20 // get current height of graphic
+  currentHeight = w_circle6+30 // get current height of graphic
   document.getElementById("svg-conversionrate").style.height = (currentHeight) + "px";
   if (w6>=520) {
     w_label6 = 40;
@@ -254,7 +254,7 @@ function chart6_resize() {
         if (w6>=435) {
           return 1.8*max_r;
         }
-        else { return 1.8*max_r; }
+        else { return 1.7*max_r; }
       })
       .call(wrap, .12*w6);
 }; // end chart6 resize
@@ -267,7 +267,7 @@ var w7 = document.getElementById("svg-perfectconversion").getBoundingClientRect(
 var h7 = document.getElementById("svg-perfectconversion").getBoundingClientRect().height;
 var h_label = 5;
 var h_spacing7 = 10;
-var w_diff7 = 70;
+var w_diff7 = 80;
 if (bodyWidth>=600) {
   var w_division7 = 100;
 }
@@ -335,7 +335,7 @@ function chart7_setup() {
       })
       .attr("r", 6)
       .style("fill", orange);
-  if (w7 >= 550) { // if width is greater than 550, then don't need to wrap
+  if (w7 >= 700) { // if width is greater than 550, then don't need to wrap
     svg7.append("text")
         .attr("class", "axis_labels")
         .attr("id", "losing_avg_label")
@@ -532,7 +532,7 @@ function chart7_resize() {
       .attr("cx", function(d) {
         return xScale7(d.lose);
       });
-  if (w7 >= 550) { // if width is greater than 550, then don't need to wrap
+  if (w7 >= 700) { // if width is greater than 550, then don't need to wrap
     svg7.select("#losing_avg_label")
         .text("Losing teams")
         .attr("x", xScale7(.71))

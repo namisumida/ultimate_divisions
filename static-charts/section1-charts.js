@@ -1063,13 +1063,14 @@ function chart5_setup() {
   svg5.append("text")
       .attr("x", w_label5+w_field5/2)
       .attr("y", function() {
-        if (w5<=316) { return top5-15; }
-        else { return top5-5; }
+        if (w5<=339) { return top5-20; }
+        else if (w5<568) { return top5-5; }
+        else { return top5-10; }
       })
       .text("Between full field and end zone")
       .attr("class", "axis_labels")
       .attr("id", "btwn_axis_label5")
-      .call(wrap, d3.min([w_field5*2/6,100]));
+      .call(wrap, d3.min([w_field5*2/6,120]));
   svg5.append("text")
       .attr("x", w_label5+w_field5*(4/5))
       .attr("y", top5)
@@ -1360,16 +1361,16 @@ function chart5_resize() {
   svg5.select("#btwn_axis_label5")
       .attr("x", w_label5+w_field5/2)
       .attr("y", function() {
-        if (w5<=316) { return top5-15; }
-        else { return top5-5; }
+        if (w5<=339) { return top5-20; }
+        else if (w5<568) { return top5-5; }
+        else { return top5-10; }
       })
       .text("Between full field and end zone")
-      .call(wrap, d3.min([w_field5*2/6,100]));
+      .call(wrap, d3.min([w_field5*2/6,130]));
   svg5.select("#end_axis_label5")
       .attr("x", w_label5+w_field5*(4/5))
       .attr("y", top5)
-      .text("End zone")
-      .call(wrap, outerRadius5*2);
+      .text("End zone");
   svg5.select("#full_line5")
       .attr("x1", w_label5+w_field5/5)
       .attr("x2", w_label5+w_field5/5);

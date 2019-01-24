@@ -6,13 +6,13 @@
     font-family: radnika-bold;
   }
   .axis_labels {
-    font-size: 10px;
+    font-size: 11px;
     text-anchor: middle;
     font-weight: 500;
     font-family: radnika-regular;
   }
   .data_labels {
-    font-size: 10px;
+    font-size: 11px;
     text-anchor: middle;
     font-weight: 500;
     font-family: radnika-regular;
@@ -38,13 +38,13 @@
     font-family: radnika-bold;
   }
   .axis_labels {
-    font-size: 12px;
+    font-size: 13px;
     text-anchor: middle;
     font-weight: 500;
     font-family: radnika-regular;
   }
   .data_labels {
-    font-size: 12px;
+    font-size: 13px;
     text-anchor: middle;
     font-weight: 500;
     font-family: radnika-regular;
